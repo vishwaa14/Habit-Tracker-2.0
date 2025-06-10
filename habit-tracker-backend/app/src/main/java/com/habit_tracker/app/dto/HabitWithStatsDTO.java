@@ -9,13 +9,13 @@ public class HabitWithStatsDTO {
     private Integer currentStreak;
     private Integer longestStreak;
     private Double completionRate;
-    private Map<LocalDate, Boolean> monthlyCompletions;
+    private Map<String, Boolean> monthlyCompletions; // Changed to String keys
     private Integer totalCompletions;
 
     public HabitWithStatsDTO() {}
 
     public HabitWithStatsDTO(Habit habit, Integer currentStreak, Integer longestStreak, 
-                           Double completionRate, Map<LocalDate, Boolean> monthlyCompletions, 
+                           Double completionRate, Map<String, Boolean> monthlyCompletions, 
                            Integer totalCompletions) {
         this.habit = habit;
         this.currentStreak = currentStreak;
@@ -38,8 +38,8 @@ public class HabitWithStatsDTO {
     public Double getCompletionRate() { return completionRate; }
     public void setCompletionRate(Double completionRate) { this.completionRate = completionRate; }
 
-    public Map<LocalDate, Boolean> getMonthlyCompletions() { return monthlyCompletions; }
-    public void setMonthlyCompletions(Map<LocalDate, Boolean> monthlyCompletions) { this.monthlyCompletions = monthlyCompletions; }
+    public Map<String, Boolean> getMonthlyCompletions() { return monthlyCompletions; }
+    public void setMonthlyCompletions(Map<String, Boolean> monthlyCompletions) { this.monthlyCompletions = monthlyCompletions; }
 
     public Integer getTotalCompletions() { return totalCompletions; }
     public void setTotalCompletions(Integer totalCompletions) { this.totalCompletions = totalCompletions; }

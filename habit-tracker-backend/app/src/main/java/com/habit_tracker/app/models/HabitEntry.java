@@ -1,5 +1,6 @@
 package com.habit_tracker.app.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
@@ -12,6 +13,7 @@ public class HabitEntry {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "habit_id", nullable = false)
+    @JsonBackReference
     private Habit habit;
 
     @Column(name = "completion_date", nullable = false)

@@ -26,7 +26,7 @@ interface HabitCardProps {
 
 export function HabitCard({ habit, onToggleToday, onToggleDate }: HabitCardProps) {
   const today = new Date().toISOString().split('T')[0]
-  const isCompletedToday = habit.monthlyCompletions[today] || false
+  const isCompletedToday = habit.monthlyCompletions?.[today] || false
 
   const handleTodayToggle = () => {
     onToggleToday(habit.id)
@@ -124,7 +124,7 @@ export function HabitCard({ habit, onToggleToday, onToggleDate }: HabitCardProps
               const date = new Date()
               date.setDate(date.getDate() - (6 - i))
               const dateStr = date.toISOString().split('T')[0]
-              const isCompleted = habit.monthlyCompletions[dateStr] || false
+              const isCompleted = habit.monthlyCompletions?.[dateStr] || false
               
               return (
                 <div
@@ -148,7 +148,7 @@ export function HabitCard({ habit, onToggleToday, onToggleDate }: HabitCardProps
           <HabitCalendar
             habitId={habit.id}
             habitName={habit.name}
-            monthlyCompletions={habit.monthlyCompletions}
+            monthlyCompletions={habit.monthlyCompletions || {}}
             currentStreak={habit.currentStreak}
             longestStreak={habit.longestStreak}
             onToggleCompletion={handleDateToggle}

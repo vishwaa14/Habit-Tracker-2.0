@@ -1,5 +1,6 @@
 package com.habit_tracker.app.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
@@ -24,6 +25,7 @@ public class Habit {
     private Integer targetFrequency = 1; // Daily by default
 
     @OneToMany(mappedBy = "habit", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<HabitEntry> entries;
 
     public Habit() {

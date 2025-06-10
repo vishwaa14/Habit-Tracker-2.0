@@ -62,14 +62,14 @@ public class HabitService {
         List<HabitEntry> monthlyEntries = habitEntryRepository.findByHabitIdAndCompletionDateBetween(
                 habit.getId(), monthStart, monthEnd);
         
-        // Create monthly completions map
-        Map<LocalDate, Boolean> monthlyCompletions = new HashMap<>();
+        // Create monthly completions map with String keys
+        Map<String, Boolean> monthlyCompletions = new HashMap<>();
         for (LocalDate date = monthStart; !date.isAfter(monthEnd); date = date.plusDays(1)) {
-            monthlyCompletions.put(date, false);
+            monthlyCompletions.put(date.toString(), false);
         }
         
         for (HabitEntry entry : monthlyEntries) {
-            monthlyCompletions.put(entry.getCompletionDate(), entry.getCompleted());
+            monthlyCompletions.put(entry.getCompletionDate().toString(), entry.getCompleted());
         }
         
         // Calculate streaks
