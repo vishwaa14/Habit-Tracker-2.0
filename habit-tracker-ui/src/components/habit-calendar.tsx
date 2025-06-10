@@ -24,7 +24,7 @@ export function HabitCalendar({
   longestStreak,
   onToggleCompletion 
 }: HabitCalendarProps) {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>()
 
   const completedDates = Object.entries(monthlyCompletions)
     .filter(([_, completed]) => completed)
@@ -32,9 +32,14 @@ export function HabitCalendar({
 
   const handleDateSelect = (date: Date | undefined) => {
     if (date) {
+      // Only set selected date, don't toggle completion automatically
       setSelectedDate(date)
-      onToggleCompletion(date)
     }
+  }
+
+  const handleDateClick = (date: Date) => {
+    // Separate function for toggling completion
+    onToggleCompletion(date)
   }
 
   const modifiers = {
@@ -77,16 +82,34 @@ export function HabitCalendar({
             </div>
           </div>
 
-          <Calendar
-            mode="single"
-            selected={selectedDate}
-            onSelect={handleDateSelect}
-            modifiers={modifiers}
-            modifiersStyles={modifiersStyles}
-            className="rounded-md border"
-          />
+          <div className="space-y-2">
+            <Calendar
+              mode="single"
+              selected={selectedDate}
+              onSelect={handleDateSelect}
+              modifiers={modifiers}
+              modifiersStyles={modifiersStyles}
+              className="rounded-md border"
+              onDayClick={handleDateClick}
+            />
+            
+            <div className="text-center">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => selectedDate && handleDateClick(selectedDate)}
+                disabled={!selectedDate}
+                className="w-full"
+              >
+                {selectedDate && monthlyCompletions[selectedDate.toISOString().split('T')[0]] 
+                  ? 'Mark as Incomplete' 
+                  : 'Mark as Complete'
+                }
+              </Button>
+            </div>
+          </div>
 
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground justify-center">
             <div className="w-4 h-4 bg-green-500 rounded"></div>
             <span>Completed days</span>
           </div>

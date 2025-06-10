@@ -6,7 +6,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { HabitCard } from "@/components/habit-card"
-import { Plus, Target, TrendingUp, Calendar } from "lucide-react"
+import { DailyHabitsTable } from "@/components/daily-habits-table"
+import { Plus, Target, TrendingUp, Calendar, Sparkles } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 
 interface Habit {
@@ -78,25 +79,7 @@ export default function Dashboard() {
     }
   }
 
-  const handleToggleToday = async (habitId: number) => {
-    const today = new Date().toISOString().split('T')[0]
-    
-    try {
-      const response = await fetch(`http://localhost:9090/api/habits/${habitId}/toggle?date=${today}`, {
-        method: "POST",
-      })
-
-      if (response.ok) {
-        fetchHabits() // Refresh to get updated stats
-      }
-    } catch (error) {
-      console.error("Error toggling habit:", error)
-    }
-  }
-
-  const handleToggleDate = async (habitId: number, date: Date) => {
-    const dateStr = date.toISOString().split('T')[0]
-    
+  const handleToggleHabit = async (habitId: number, dateStr: string) => {
     try {
       const response = await fetch(`http://localhost:9090/api/habits/${habitId}/toggle?date=${dateStr}`, {
         method: "POST",
@@ -110,6 +93,16 @@ export default function Dashboard() {
     }
   }
 
+  const handleToggleToday = async (habitId: number) => {
+    const today = new Date().toISOString().split('T')[0]
+    await handleToggleHabit(habitId, today)
+  }
+
+  const handleToggleDate = async (habitId: number, date: Date) => {
+    const dateStr = date.toISOString().split('T')[0]
+    await handleToggleHabit(habitId, dateStr)
+  }
+
   const totalHabits = habits.length
   const activeStreaks = habits.filter(h => h.currentStreak > 0).length
   const avgCompletionRate = habits.length > 0 
@@ -119,87 +112,111 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="text-lg">Loading your habits...</div>
+        <div className="text-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <div className="text-lg font-medium">Loading your habits...</div>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="container mx-auto p-6 max-w-7xl">
+    <div className="container mx-auto p-6 max-w-7xl space-y-8">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Habit Tracker Dashboard</h1>
-        <p className="text-muted-foreground">
-          Build better habits, one day at a time
-        </p>
+      <div className="text-center space-y-4">
+        <div className="flex items-center justify-center gap-3">
+          <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl">
+            <Sparkles className="h-8 w-8 text-white" />
+          </div>
+          <div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Habit Tracker
+            </h1>
+            <p className="text-muted-foreground text-lg">
+              Build better habits, one day at a time
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-        <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-6 rounded-xl border">
-          <div className="flex items-center gap-3">
-            <Target className="h-8 w-8 text-blue-600" />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl border border-blue-200 shadow-sm">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-blue-500 rounded-xl">
+              <Target className="h-6 w-6 text-white" />
+            </div>
             <div>
-              <div className="text-2xl font-bold text-blue-700">{totalHabits}</div>
-              <div className="text-sm text-blue-600">Total Habits</div>
+              <div className="text-3xl font-bold text-blue-700">{totalHabits}</div>
+              <div className="text-sm text-blue-600 font-medium">Total Habits</div>
             </div>
           </div>
         </div>
         
-        <div className="bg-gradient-to-r from-green-50 to-green-100 p-6 rounded-xl border">
-          <div className="flex items-center gap-3">
-            <TrendingUp className="h-8 w-8 text-green-600" />
+        <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-2xl border border-green-200 shadow-sm">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-green-500 rounded-xl">
+              <TrendingUp className="h-6 w-6 text-white" />
+            </div>
             <div>
-              <div className="text-2xl font-bold text-green-700">{activeStreaks}</div>
-              <div className="text-sm text-green-600">Active Streaks</div>
+              <div className="text-3xl font-bold text-green-700">{activeStreaks}</div>
+              <div className="text-sm text-green-600 font-medium">Active Streaks</div>
             </div>
           </div>
         </div>
         
-        <div className="bg-gradient-to-r from-purple-50 to-purple-100 p-6 rounded-xl border">
-          <div className="flex items-center gap-3">
-            <Calendar className="h-8 w-8 text-purple-600" />
+        <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-2xl border border-purple-200 shadow-sm">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-purple-500 rounded-xl">
+              <Calendar className="h-6 w-6 text-white" />
+            </div>
             <div>
-              <div className="text-2xl font-bold text-purple-700">{avgCompletionRate}%</div>
-              <div className="text-sm text-purple-600">Avg Completion</div>
+              <div className="text-3xl font-bold text-purple-700">{avgCompletionRate}%</div>
+              <div className="text-sm text-purple-600 font-medium">Avg Completion</div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Add Habit Button */}
-      <div className="mb-6">
+      <div className="flex justify-center">
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="gap-2">
-              <Plus className="h-4 w-4" />
+            <Button size="lg" className="gap-2 px-8 py-3 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-200">
+              <Plus className="h-5 w-5" />
               Add New Habit
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="sm:max-w-md">
             <DialogHeader>
-              <DialogTitle>Create New Habit</DialogTitle>
+              <DialogTitle className="text-xl">Create New Habit</DialogTitle>
             </DialogHeader>
-            <div className="space-y-4">
-              <div>
-                <Label htmlFor="habit-name">Habit Name</Label>
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="habit-name" className="text-sm font-medium">Habit Name</Label>
                 <Input
                   id="habit-name"
                   value={newHabit}
                   onChange={(e) => setNewHabit(e.target.value)}
                   placeholder="e.g., Drink 8 glasses of water"
+                  className="h-11"
                 />
               </div>
-              <div>
-                <Label htmlFor="habit-description">Description</Label>
+              <div className="space-y-2">
+                <Label htmlFor="habit-description" className="text-sm font-medium">Description</Label>
                 <Input
                   id="habit-description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Why is this habit important to you?"
+                  className="h-11"
                 />
               </div>
-              <Button onClick={handleAddHabit} className="w-full">
+              <Button 
+                onClick={handleAddHabit} 
+                className="w-full h-11 text-base rounded-lg"
+                disabled={!newHabit.trim() || !description.trim()}
+              >
                 Create Habit
               </Button>
             </div>
@@ -207,31 +224,43 @@ export default function Dashboard() {
         </Dialog>
       </div>
 
+      {/* Daily Habits Table */}
+      <DailyHabitsTable 
+        habits={habits} 
+        onToggleHabit={handleToggleHabit}
+      />
+
       {/* Habits Grid */}
-      {habits.length === 0 ? (
-        <div className="text-center py-12">
-          <Target className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-          <h3 className="text-xl font-semibold mb-2">No habits yet</h3>
-          <p className="text-muted-foreground mb-4">
-            Start building better habits by creating your first one!
-          </p>
-          <Button onClick={() => setIsDialogOpen(true)} className="gap-2">
-            <Plus className="h-4 w-4" />
-            Add Your First Habit
-          </Button>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {habits.map((habit) => (
-            <HabitCard
-              key={habit.id}
-              habit={habit}
-              onToggleToday={handleToggleToday}
-              onToggleDate={handleToggleDate}
-            />
-          ))}
-        </div>
-      )}
+      <div className="space-y-6">
+        <h2 className="text-2xl font-bold text-center">Your Habits</h2>
+        
+        {habits.length === 0 ? (
+          <div className="text-center py-16">
+            <div className="p-4 bg-gray-100 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+              <Target className="h-10 w-10 text-gray-400" />
+            </div>
+            <h3 className="text-xl font-semibold mb-2">No habits yet</h3>
+            <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+              Start building better habits by creating your first one! Track your progress and build lasting routines.
+            </p>
+            <Button onClick={() => setIsDialogOpen(true)} size="lg" className="gap-2 px-8">
+              <Plus className="h-5 w-5" />
+              Add Your First Habit
+            </Button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {habits.map((habit) => (
+              <HabitCard
+                key={habit.id}
+                habit={habit}
+                onToggleToday={handleToggleToday}
+                onToggleDate={handleToggleDate}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   )
 }
