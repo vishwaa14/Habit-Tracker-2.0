@@ -26,9 +26,23 @@ export function HabitCalendar({
 }: HabitCalendarProps) {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>()
 
+  // Helper function to format date consistently
+  const formatDateToString = (date: Date) => {
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+  }
+
+  // Helper function to create date from string
+  const createDateFromString = (dateStr: string) => {
+    const [year, month, day] = dateStr.split('-').map(Number)
+    return new Date(year, month - 1, day)
+  }
+
   const completedDates = Object.entries(monthlyCompletions)
     .filter(([_, completed]) => completed)
-    .map(([dateStr, _]) => new Date(dateStr))
+    .map(([dateStr, _]) => createDateFromString(dateStr))
 
   const handleDateSelect = (date: Date | undefined) => {
     if (date) {
@@ -39,7 +53,6 @@ export function HabitCalendar({
   const handleToggleClick = () => {
     if (selectedDate) {
       onToggleCompletion(selectedDate)
-      // Optionally keep the date selected after toggling
     }
   }
 
@@ -62,7 +75,7 @@ export function HabitCalendar({
     },
   }
 
-  const isSelectedDateCompleted = selectedDate && monthlyCompletions[selectedDate.toISOString().split('T')[0]]
+  const isSelectedDateCompleted = selectedDate && monthlyCompletions[formatDateToString(selectedDate)]
 
   return (
     <Dialog>
@@ -132,10 +145,6 @@ export function HabitCalendar({
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-green-500 rounded"></div>
               <span>Completed</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 bg-blue-500 rounded border-2 border-blue-700"></div>
-              <span>Selected</span>
             </div>
           </div>
         </div>
