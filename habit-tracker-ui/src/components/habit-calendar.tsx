@@ -32,18 +32,20 @@ export function HabitCalendar({
 
   const handleDateSelect = (date: Date | undefined) => {
     if (date) {
-      // Only set selected date, don't toggle completion automatically
+      // Only set selected date for visual feedback, don't toggle completion
       setSelectedDate(date)
     }
   }
 
-  const handleDateClick = (date: Date) => {
-    // Separate function for toggling completion
-    onToggleCompletion(date)
+  const handleToggleClick = () => {
+    if (selectedDate) {
+      onToggleCompletion(selectedDate)
+    }
   }
 
   const modifiers = {
     completed: completedDates,
+    selected: selectedDate ? [selectedDate] : [],
   }
 
   const modifiersStyles = {
@@ -52,7 +54,14 @@ export function HabitCalendar({
       color: 'white',
       fontWeight: 'bold',
     },
+    selected: {
+      backgroundColor: '#3b82f6',
+      color: 'white',
+      fontWeight: 'bold',
+    },
   }
+
+  const isSelectedDateCompleted = selectedDate && monthlyCompletions[selectedDate.toISOString().split('T')[0]]
 
   return (
     <Dialog>
@@ -90,18 +99,22 @@ export function HabitCalendar({
               modifiers={modifiers}
               modifiersStyles={modifiersStyles}
               className="rounded-md border"
-              onDayClick={handleDateClick}
             />
             
-            <div className="text-center">
+            <div className="text-center space-y-2">
+              {selectedDate && (
+                <div className="text-sm text-muted-foreground">
+                  Selected: {selectedDate.toLocaleDateString()}
+                </div>
+              )}
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => selectedDate && handleDateClick(selectedDate)}
+                onClick={handleToggleClick}
                 disabled={!selectedDate}
                 className="w-full"
               >
-                {selectedDate && monthlyCompletions[selectedDate.toISOString().split('T')[0]] 
+                {selectedDate && isSelectedDateCompleted 
                   ? 'Mark as Incomplete' 
                   : 'Mark as Complete'
                 }
@@ -109,9 +122,15 @@ export function HabitCalendar({
             </div>
           </div>
 
-          <div className="flex items-center gap-2 text-sm text-muted-foreground justify-center">
-            <div className="w-4 h-4 bg-green-500 rounded"></div>
-            <span>Completed days</span>
+          <div className="flex items-center gap-4 text-sm text-muted-foreground justify-center">
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-green-500 rounded"></div>
+              <span>Completed</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-blue-500 rounded"></div>
+              <span>Selected</span>
+            </div>
           </div>
         </div>
       </DialogContent>
