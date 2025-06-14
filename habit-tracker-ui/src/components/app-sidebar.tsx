@@ -34,41 +34,6 @@ const data = {
       isActive: true,
     },
     {
-      title: "Habits",
-      url: "/dashboard",
-      icon: Target,
-      items: [
-        {
-          title: "All Habits",
-          url: "/dashboard",
-        },
-        {
-          title: "Active Streaks",
-          url: "/dashboard",
-        },
-      ],
-    },
-    {
-      title: "Analytics",
-      url: "#",
-      icon: BarChart3,
-      items: [
-        {
-          title: "Progress Report",
-          url: "#",
-        },
-        {
-          title: "Trends",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Calendar",
-      url: "#",
-      icon: Calendar,
-    },
-    {
       title: "Settings",
       url: "#",
       icon: Settings,
@@ -76,11 +41,7 @@ const data = {
         {
           title: "Profile",
           url: "#",
-        },
-        {
-          title: "Preferences",
-          url: "#",
-        },
+        }
       ],
     },
   ],
