@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { Calendar } from "@/components/ui/calendar"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
@@ -22,6 +23,8 @@ export function HabitCalendar({
   longestStreak,
   onToggleCompletion 
 }: HabitCalendarProps) {
+  const [selectedMonth, setSelectedMonth] = useState<Date>(new Date())
+
   // Helper function to create date from string (avoiding timezone issues)
   const createDateFromString = (dateStr: string) => {
     const [year, month, day] = dateStr.split('-').map(Number)
@@ -75,19 +78,16 @@ export function HabitCalendar({
           <div className="space-y-3">
             <Calendar
               mode="single"
+              month={selectedMonth}
+              onMonthChange={setSelectedMonth}
               modifiers={modifiers}
               modifiersStyles={modifiersStyles}
               className="rounded-md border"
               classNames={{
                 day: "h-9 w-9 p-0 font-normal aria-selected:opacity-100 hover:bg-accent hover:text-accent-foreground cursor-default",
                 day_today: "bg-accent text-accent-foreground font-medium",
-                nav_button: "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 cursor-default pointer-events-none",
+                nav_button: "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100",
                 head_cell: "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",
-              }}
-              components={{
-                // Remove navigation arrows to prevent month switching
-                IconLeft: () => null,
-                IconRight: () => null,
               }}
             />
           </div>
@@ -98,7 +98,7 @@ export function HabitCalendar({
           </div>
           
           <div className="text-center text-xs text-muted-foreground bg-blue-50 p-3 rounded-md">
-            Use the main dashboard to mark today's habits as complete
+            📅 Navigate between months to view your progress history
           </div>
         </div>
       </DialogContent>
