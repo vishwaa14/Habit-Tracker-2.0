@@ -1,11 +1,9 @@
 "use client"
 
-import { useState } from "react"
 import { Calendar } from "@/components/ui/calendar"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { CalendarDays, Lock } from "lucide-react"
+import { CalendarDays } from "lucide-react"
 
 interface HabitCalendarProps {
   habitId: number
@@ -24,49 +22,18 @@ export function HabitCalendar({
   longestStreak,
   onToggleCompletion 
 }: HabitCalendarProps) {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>()
-
-  // Helper function to format date consistently (avoiding timezone issues)
-  const formatDateToString = (date: Date) => {
-    const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const day = String(date.getDate()).padStart(2, '0')
-    return `${year}-${month}-${day}`
-  }
-
   // Helper function to create date from string (avoiding timezone issues)
   const createDateFromString = (dateStr: string) => {
     const [year, month, day] = dateStr.split('-').map(Number)
     return new Date(year, month - 1, day)
   }
 
-  // Check if a date is today
-  const isToday = (date: Date) => {
-    const today = new Date()
-    return date.getFullYear() === today.getFullYear() &&
-           date.getMonth() === today.getMonth() &&
-           date.getDate() === today.getDate()
-  }
-
   const completedDates = Object.entries(monthlyCompletions)
     .filter(([_, completed]) => completed)
     .map(([dateStr, _]) => createDateFromString(dateStr))
 
-  const handleDateSelect = (date: Date | undefined) => {
-    if (date) {
-      setSelectedDate(date)
-    }
-  }
-
-  const handleToggleClick = () => {
-    if (selectedDate && isToday(selectedDate)) {
-      onToggleCompletion(selectedDate)
-    }
-  }
-
   const modifiers = {
     completed: completedDates,
-    selected: selectedDate ? [selectedDate] : [],
   }
 
   const modifiersStyles = {
@@ -75,16 +42,7 @@ export function HabitCalendar({
       color: 'white',
       fontWeight: 'bold',
     },
-    selected: {
-      backgroundColor: '#3b82f6',
-      color: 'white',
-      fontWeight: 'bold',
-      border: '2px solid #1d4ed8',
-    },
   }
-
-  const isSelectedDateCompleted = selectedDate && monthlyCompletions[formatDateToString(selectedDate)]
-  const isSelectedDateToday = selectedDate && isToday(selectedDate)
 
   return (
     <Dialog>
@@ -117,61 +75,20 @@ export function HabitCalendar({
           <div className="space-y-3">
             <Calendar
               mode="single"
-              selected={selectedDate}
-              onSelect={handleDateSelect}
               modifiers={modifiers}
               modifiersStyles={modifiersStyles}
               className="rounded-md border"
+              disabled={true} // Disable all interactions since it's view-only
             />
-            
-            <div className="text-center space-y-3">
-              {selectedDate && (
-                <div className={`text-sm p-3 rounded-md ${
-                  isSelectedDateToday 
-                    ? 'bg-blue-50 border border-blue-200' 
-                    : 'bg-gray-50 border border-gray-200'
-                }`}>
-                  <div className="flex items-center justify-center gap-2 mb-2">
-                    <span className="font-medium">{selectedDate.toLocaleDateString()}</span>
-                    {!isSelectedDateToday && (
-                      <Lock className="h-4 w-4 text-gray-400" />
-                    )}
-                  </div>
-                  
-                  {isSelectedDateCompleted && (
-                    <Badge variant="default" className="bg-green-500">
-                      ✓ Completed
-                    </Badge>
-                  )}
-                  
-                  {!isSelectedDateToday && (
-                    <div className="text-xs text-gray-500 mt-1">
-                      Only today's habits can be edited
-                    </div>
-                  )}
-                </div>
-              )}
-              
-              <Button
-                variant={isSelectedDateCompleted ? "destructive" : "default"}
-                size="sm"
-                onClick={handleToggleClick}
-                disabled={!selectedDate || !isSelectedDateToday}
-                className="w-full"
-              >
-                {!selectedDate ? 'Select a date' :
-                 !isSelectedDateToday ? 'Can only edit today' :
-                 isSelectedDateCompleted ? 'Mark as Incomplete' : 'Mark as Complete'
-                }
-              </Button>
-            </div>
           </div>
 
-          <div className="flex items-center gap-4 text-sm text-muted-foreground justify-center">
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 bg-green-500 rounded"></div>
-              <span>Completed</span>
-            </div>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground justify-center">
+            <div className="w-4 h-4 bg-green-500 rounded"></div>
+            <span>Completed days</span>
+          </div>
+          
+          <div className="text-center text-xs text-muted-foreground bg-blue-50 p-3 rounded-md">
+            Use the main dashboard to mark today's habits as complete
           </div>
         </div>
       </DialogContent>
