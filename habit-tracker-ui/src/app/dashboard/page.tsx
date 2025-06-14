@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { HabitCard } from "@/components/habit-card"
 import { DailyHabitsTable } from "@/components/daily-habits-table"
-import { Plus, Target, TrendingUp, Calendar, Sparkles, Zap, Award, Star } from "lucide-react"
+import { Plus, Target, TrendingUp, Calendar, Sparkles } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 
 interface Habit {
@@ -127,225 +127,155 @@ export default function Dashboard() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-        <div className="text-center space-y-6">
-          <div className="relative">
-            <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-200 border-t-blue-600 mx-auto shadow-lg"></div>
-            <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 opacity-20 animate-pulse"></div>
-          </div>
-          <div className="space-y-2">
-            <div className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Loading your habits...
-            </div>
-            <div className="text-sm text-gray-500 animate-pulse">Building your success dashboard</div>
-          </div>
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <div className="text-lg font-medium">Loading your habits...</div>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      <div className="container mx-auto p-6 max-w-7xl space-y-8">
-        {/* Header */}
-        <div className="text-center space-y-6 py-8">
-          <div className="flex items-center justify-center gap-4">
-            <div className="relative">
-              <div className="p-4 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 rounded-2xl shadow-xl">
-                <Sparkles className="h-10 w-10 text-white animate-pulse" />
-              </div>
-              <div className="absolute -top-1 -right-1 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg animate-bounce">
-                <Star className="h-3 w-3 text-yellow-800" />
-              </div>
+    <div className="container mx-auto p-6 max-w-7xl space-y-8">
+      {/* Header */}
+      <div className="text-center space-y-4">
+        <div className="flex items-center justify-center gap-3">
+          <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl">
+            <Sparkles className="h-8 w-8 text-white" />
+          </div>
+          <div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Habit Tracker
+            </h1>
+            <p className="text-muted-foreground text-lg">
+              Build better habits, one day at a time
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Stats Overview */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl border border-blue-200 shadow-sm">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-blue-500 rounded-xl">
+              <Target className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-                Habit Tracker
-              </h1>
-              <p className="text-gray-600 text-xl mt-2 font-medium">
-                Transform your life, one habit at a time ✨
-              </p>
+              <div className="text-3xl font-bold text-blue-700">{totalHabits}</div>
+              <div className="text-sm text-blue-600 font-medium">Total Habits</div>
             </div>
           </div>
         </div>
-
-        {/* Enhanced Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="group relative overflow-hidden bg-gradient-to-br from-blue-500 to-blue-600 p-8 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-blue-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div className="relative z-10 flex items-center gap-6">
-              <div className="p-4 bg-white/20 backdrop-blur-sm rounded-2xl group-hover:scale-110 transition-transform duration-300">
-                <Target className="h-8 w-8 text-white" />
-              </div>
-              <div>
-                <div className="text-4xl font-bold text-white mb-1">{totalHabits}</div>
-                <div className="text-blue-100 font-semibold text-lg">Total Habits</div>
-                <div className="text-blue-200 text-sm">Your journey starts here</div>
-              </div>
+        
+        <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-2xl border border-green-200 shadow-sm">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-green-500 rounded-xl">
+              <TrendingUp className="h-6 w-6 text-white" />
             </div>
-            <div className="absolute top-4 right-4 opacity-20 group-hover:opacity-30 transition-opacity">
-              <Target className="h-16 w-16 text-white" />
-            </div>
-          </div>
-          
-          <div className="group relative overflow-hidden bg-gradient-to-br from-orange-500 to-red-500 p-8 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-            <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div className="relative z-10 flex items-center gap-6">
-              <div className="p-4 bg-white/20 backdrop-blur-sm rounded-2xl group-hover:scale-110 transition-transform duration-300">
-                <Zap className="h-8 w-8 text-white animate-pulse" />
-              </div>
-              <div>
-                <div className="text-4xl font-bold text-white mb-1 flex items-center gap-2">
-                  {activeStreaks}
-                  <span className="text-2xl">🔥</span>
-                </div>
-                <div className="text-orange-100 font-semibold text-lg">Active Streaks</div>
-                <div className="text-orange-200 text-sm">Keep the fire burning!</div>
-              </div>
-            </div>
-            <div className="absolute top-4 right-4 opacity-20 group-hover:opacity-30 transition-opacity">
-              <Zap className="h-16 w-16 text-white" />
-            </div>
-          </div>
-          
-          <div className="group relative overflow-hidden bg-gradient-to-br from-green-500 to-emerald-600 p-8 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-            <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-emerald-700 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            <div className="relative z-10 flex items-center gap-6">
-              <div className="p-4 bg-white/20 backdrop-blur-sm rounded-2xl group-hover:scale-110 transition-transform duration-300">
-                <TrendingUp className="h-8 w-8 text-white" />
-              </div>
-              <div>
-                <div className="text-4xl font-bold text-white mb-1">{avgCompletionRate}%</div>
-                <div className="text-green-100 font-semibold text-lg">Avg Completion</div>
-                <div className="text-green-200 text-sm">Excellence in progress</div>
-              </div>
-            </div>
-            <div className="absolute top-4 right-4 opacity-20 group-hover:opacity-30 transition-opacity">
-              <Award className="h-16 w-16 text-white" />
+            <div>
+              <div className="text-3xl font-bold text-green-700">{activeStreaks}</div>
+              <div className="text-sm text-green-600 font-medium">Active Streaks</div>
             </div>
           </div>
         </div>
+        
+        <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-2xl border border-purple-200 shadow-sm">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-purple-500 rounded-xl">
+              <Calendar className="h-6 w-6 text-white" />
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-purple-700">{avgCompletionRate}%</div>
+              <div className="text-sm text-purple-600 font-medium">Avg Completion</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-        {/* Enhanced Add Habit Button */}
-        <div className="flex justify-center py-4">
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
+      {/* Add Habit Button */}
+      <div className="flex justify-center">
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogTrigger asChild>
+            <Button size="lg" className="gap-2 px-8 py-3 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-200">
+              <Plus className="h-5 w-5" />
+              Add New Habit
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle className="text-xl">Create New Habit</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <Label htmlFor="habit-name" className="text-sm font-medium">Habit Name</Label>
+                <Input
+                  id="habit-name"
+                  value={newHabit}
+                  onChange={(e) => setNewHabit(e.target.value)}
+                  placeholder="e.g., Drink 8 glasses of water"
+                  className="h-11"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="habit-description" className="text-sm font-medium">Description</Label>
+                <Input
+                  id="habit-description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  placeholder="Why is this habit important to you?"
+                  className="h-11"
+                />
+              </div>
               <Button 
-                size="lg" 
-                className="group relative overflow-hidden bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-10 py-4 text-lg rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border-0"
+                onClick={handleAddHabit} 
+                className="w-full h-11 text-base rounded-lg"
+                disabled={!newHabit.trim() || !description.trim()}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative flex items-center gap-3">
-                  <div className="p-1 bg-white/20 rounded-lg group-hover:scale-110 transition-transform duration-300">
-                    <Plus className="h-6 w-6" />
-                  </div>
-                  <span className="font-bold">Add New Habit</span>
-                  <Sparkles className="h-5 w-5 animate-pulse" />
-                </div>
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-md bg-gradient-to-br from-white to-gray-50 border-0 shadow-2xl">
-              <DialogHeader>
-                <DialogTitle className="text-2xl text-center bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent font-bold">
-                  ✨ Create New Habit
-                </DialogTitle>
-              </DialogHeader>
-              <div className="space-y-6 pt-4">
-                <div className="space-y-3">
-                  <Label htmlFor="habit-name" className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-                    <Target className="h-4 w-4 text-purple-500" />
-                    Habit Name
-                  </Label>
-                  <Input
-                    id="habit-name"
-                    value={newHabit}
-                    onChange={(e) => setNewHabit(e.target.value)}
-                    placeholder="e.g., Drink 8 glasses of water 💧"
-                    className="h-12 border-2 border-gray-200 focus:border-purple-400 rounded-xl transition-colors"
-                  />
-                </div>
-                <div className="space-y-3">
-                  <Label htmlFor="habit-description" className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-pink-500" />
-                    Description
-                  </Label>
-                  <Input
-                    id="habit-description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Why is this habit important to you? 🎯"
-                    className="h-12 border-2 border-gray-200 focus:border-pink-400 rounded-xl transition-colors"
-                  />
-                </div>
-                <Button 
-                  onClick={handleAddHabit} 
-                  className="w-full h-12 text-base rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 shadow-lg hover:shadow-xl transition-all duration-300 font-bold"
-                  disabled={!newHabit.trim() || !description.trim()}
-                >
-                  <Plus className="h-5 w-5 mr-2" />
-                  Create Habit 🚀
-                </Button>
-              </div>
-            </DialogContent>
-          </Dialog>
-        </div>
-
-        {/* Enhanced Daily Habits Table */}
-        <DailyHabitsTable 
-          habits={habits} 
-          onToggleHabit={handleToggleHabit}
-        />
-
-        {/* Enhanced Habits Grid */}
-        <div className="space-y-8">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-700 to-gray-900 bg-clip-text text-transparent mb-2">
-              Your Habit Journey
-            </h2>
-            <p className="text-gray-600">Track, build, and celebrate your progress</p>
-          </div>
-          
-          {habits.length === 0 ? (
-            <div className="text-center py-20 bg-gradient-to-br from-gray-50 to-white rounded-3xl border-2 border-dashed border-gray-200">
-              <div className="relative mb-8">
-                <div className="p-6 bg-gradient-to-br from-gray-100 to-gray-200 rounded-full w-24 h-24 mx-auto flex items-center justify-center shadow-lg">
-                  <Target className="h-12 w-12 text-gray-400" />
-                </div>
-                <div className="absolute -top-2 -right-2 w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg animate-bounce">
-                  <Star className="h-4 w-4 text-yellow-800" />
-                </div>
-              </div>
-              <h3 className="text-2xl font-bold mb-3 text-gray-700">Ready to start your journey?</h3>
-              <p className="text-gray-500 mb-8 max-w-md mx-auto text-lg">
-                Create your first habit and begin building the life you want! Every expert was once a beginner. 🌟
-              </p>
-              <Button 
-                onClick={() => setIsDialogOpen(true)} 
-                size="lg" 
-                className="bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-10 py-4 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 font-bold text-lg"
-              >
-                <Plus className="h-6 w-6 mr-3" />
-                Start Your First Habit 🚀
+                Create Habit
               </Button>
             </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
-              {habits.map((habit, index) => (
-                <div 
-                  key={habit.id}
-                  className="animate-fade-in-up"
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <HabitCard
-                    habit={habit}
-                    onToggleToday={handleToggleToday}
-                    onToggleDate={handleToggleDate}
-                  />
-                </div>
-              ))}
+          </DialogContent>
+        </Dialog>
+      </div>
+
+      {/* Daily Habits Table */}
+      <DailyHabitsTable 
+        habits={habits} 
+        onToggleHabit={handleToggleHabit}
+      />
+
+      {/* Habits Grid */}
+      <div className="space-y-6">
+        <h2 className="text-2xl font-bold text-center">Your Habits</h2>
+        
+        {habits.length === 0 ? (
+          <div className="text-center py-16">
+            <div className="p-4 bg-gray-100 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+              <Target className="h-10 w-10 text-gray-400" />
             </div>
-          )}
-        </div>
+            <h3 className="text-xl font-semibold mb-2">No habits yet</h3>
+            <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+              Start building better habits by creating your first one! Track your progress and build lasting routines.
+            </p>
+            <Button onClick={() => setIsDialogOpen(true)} size="lg" className="gap-2 px-8">
+              <Plus className="h-5 w-5" />
+              Add Your First Habit
+            </Button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {habits.map((habit) => (
+              <HabitCard
+                key={habit.id}
+                habit={habit}
+                onToggleToday={handleToggleToday}
+                onToggleDate={handleToggleDate}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )
