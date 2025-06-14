@@ -80,13 +80,18 @@ export default function Dashboard() {
   }
 
   const handleToggleHabit = async (habitId: number, dateStr: string) => {
+    console.log('Dashboard - Toggle habit called with:', { habitId, dateStr })
+    
     try {
       const response = await fetch(`http://localhost:9090/api/habits/${habitId}/toggle?date=${dateStr}`, {
         method: "POST",
       })
 
       if (response.ok) {
+        console.log('Dashboard - Toggle successful')
         fetchHabits() // Refresh to get updated stats
+      } else {
+        console.error('Dashboard - Toggle failed with status:', response.status)
       }
     } catch (error) {
       console.error("Error toggling habit:", error)
@@ -95,11 +100,21 @@ export default function Dashboard() {
 
   const handleToggleToday = async (habitId: number) => {
     const today = new Date().toISOString().split('T')[0]
+    console.log('Dashboard - Toggle today called with:', { habitId, today })
     await handleToggleHabit(habitId, today)
   }
 
   const handleToggleDate = async (habitId: number, date: Date) => {
-    const dateStr = date.toISOString().split('T')[0]
+    console.log('Dashboard - Toggle date called with:', { habitId, date })
+    
+    // Format date consistently to avoid timezone issues
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    const dateStr = `${year}-${month}-${day}`
+    
+    console.log('Dashboard - Formatted date string:', dateStr)
+    
     await handleToggleHabit(habitId, dateStr)
   }
 

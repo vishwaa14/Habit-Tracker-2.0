@@ -26,7 +26,7 @@ export function HabitCalendar({
 }: HabitCalendarProps) {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>()
 
-  // Helper function to format date consistently
+  // Helper function to format date consistently (avoiding timezone issues)
   const formatDateToString = (date: Date) => {
     const year = date.getFullYear()
     const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -34,7 +34,7 @@ export function HabitCalendar({
     return `${year}-${month}-${day}`
   }
 
-  // Helper function to create date from string
+  // Helper function to create date from string (avoiding timezone issues)
   const createDateFromString = (dateStr: string) => {
     const [year, month, day] = dateStr.split('-').map(Number)
     return new Date(year, month - 1, day)
@@ -52,7 +52,15 @@ export function HabitCalendar({
 
   const handleToggleClick = () => {
     if (selectedDate) {
-      onToggleCompletion(selectedDate)
+      console.log('Selected date:', selectedDate)
+      console.log('Formatted date string:', formatDateToString(selectedDate))
+      
+      // Create a new date object to ensure we're sending the correct date
+      const dateToSend = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate())
+      console.log('Date being sent to backend:', dateToSend)
+      console.log('Date string being sent:', formatDateToString(dateToSend))
+      
+      onToggleCompletion(dateToSend)
     }
   }
 
