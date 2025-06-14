@@ -24,6 +24,10 @@ public class Habit {
     @Column(name = "target_frequency", nullable = false)
     private Integer targetFrequency = 1; // Daily by default
 
+    // Temporarily make user_id nullable or provide a default value
+    @Column(name = "user_id")
+    private Long userId = 1L; // Default user ID for now
+
     @OneToMany(mappedBy = "habit", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<HabitEntry> entries;
@@ -37,6 +41,7 @@ public class Habit {
         this.description = description;
         this.createdDate = LocalDate.now();
         this.targetFrequency = 1;
+        this.userId = 1L; // Default user ID
     }
 
     // Getters and Setters
@@ -54,6 +59,9 @@ public class Habit {
 
     public Integer getTargetFrequency() { return targetFrequency; }
     public void setTargetFrequency(Integer targetFrequency) { this.targetFrequency = targetFrequency; }
+
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
 
     public List<HabitEntry> getEntries() { return entries; }
     public void setEntries(List<HabitEntry> entries) { this.entries = entries; }
