@@ -78,7 +78,17 @@ export function HabitCalendar({
               modifiers={modifiers}
               modifiersStyles={modifiersStyles}
               className="rounded-md border"
-              disabled={true} // Disable all interactions since it's view-only
+              classNames={{
+                day: "h-9 w-9 p-0 font-normal aria-selected:opacity-100 hover:bg-accent hover:text-accent-foreground cursor-default",
+                day_today: "bg-accent text-accent-foreground font-medium",
+                nav_button: "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 cursor-default pointer-events-none",
+                head_cell: "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",
+              }}
+              components={{
+                // Remove navigation arrows to prevent month switching
+                IconLeft: () => null,
+                IconRight: () => null,
+              }}
             />
           </div>
 
