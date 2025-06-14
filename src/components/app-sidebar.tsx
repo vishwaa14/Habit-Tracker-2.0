@@ -2,12 +2,8 @@
 
 import * as React from "react"
 import {
-  Calendar,
   Target,
-  BarChart3,
   Home,
-  Settings,
-  User,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -32,26 +28,6 @@ const data = {
       url: "/dashboard",
       icon: Home,
       isActive: true,
-    },
-    {
-      title: "All Habits",
-      url: "/all-habits",
-      icon: Target,
-    },
-    {
-      title: "Analytics",
-      url: "/analytics",
-      icon: BarChart3,
-    },
-    {
-      title: "Calendar",
-      url: "/calendar",
-      icon: Calendar,
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings,
     },
   ],
 }
