@@ -32,7 +32,6 @@ export function HabitCalendar({
 
   const handleDateSelect = (date: Date | undefined) => {
     if (date) {
-      // Only set selected date for visual feedback, don't toggle completion
       setSelectedDate(date)
     }
   }
@@ -40,6 +39,7 @@ export function HabitCalendar({
   const handleToggleClick = () => {
     if (selectedDate) {
       onToggleCompletion(selectedDate)
+      // Optionally keep the date selected after toggling
     }
   }
 
@@ -58,6 +58,7 @@ export function HabitCalendar({
       backgroundColor: '#3b82f6',
       color: 'white',
       fontWeight: 'bold',
+      border: '2px solid #1d4ed8',
     },
   }
 
@@ -91,7 +92,7 @@ export function HabitCalendar({
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-3">
             <Calendar
               mode="single"
               selected={selectedDate}
@@ -101,14 +102,19 @@ export function HabitCalendar({
               className="rounded-md border"
             />
             
-            <div className="text-center space-y-2">
+            <div className="text-center space-y-3">
               {selectedDate && (
-                <div className="text-sm text-muted-foreground">
-                  Selected: {selectedDate.toLocaleDateString()}
+                <div className="text-sm text-muted-foreground bg-blue-50 p-2 rounded-md">
+                  Selected: <span className="font-medium">{selectedDate.toLocaleDateString()}</span>
+                  {isSelectedDateCompleted && (
+                    <Badge variant="default" className="ml-2 bg-green-500">
+                      ✓ Completed
+                    </Badge>
+                  )}
                 </div>
               )}
               <Button
-                variant="outline"
+                variant={isSelectedDateCompleted ? "destructive" : "default"}
                 size="sm"
                 onClick={handleToggleClick}
                 disabled={!selectedDate}
@@ -128,7 +134,7 @@ export function HabitCalendar({
               <span>Completed</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-4 h-4 bg-blue-500 rounded"></div>
+              <div className="w-4 h-4 bg-blue-500 rounded border-2 border-blue-700"></div>
               <span>Selected</span>
             </div>
           </div>
