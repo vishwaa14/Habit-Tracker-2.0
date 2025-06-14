@@ -35,37 +35,37 @@ const data = {
     },
     {
       title: "Habits",
-      url: "/dashboard",
+      url: "/all-habits",
       icon: Target,
       items: [
         {
           title: "All Habits",
-          url: "/dashboard",
+          url: "/all-habits",
         },
         {
-          title: "Active Streaks",
+          title: "Dashboard",
           url: "/dashboard",
         },
       ],
     },
     {
       title: "Analytics",
-      url: "#",
+      url: "/analytics",
       icon: BarChart3,
       items: [
         {
-          title: "Progress Report",
-          url: "#",
+          title: "Overview",
+          url: "/analytics",
         },
         {
           title: "Trends",
-          url: "#",
+          url: "/analytics",
         },
       ],
     },
     {
       title: "Calendar",
-      url: "#",
+      url: "/calendar",
       icon: Calendar,
     },
     {
