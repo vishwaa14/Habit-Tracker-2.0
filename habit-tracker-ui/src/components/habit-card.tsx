@@ -32,25 +32,18 @@ export function HabitCard({ habit, onToggleToday, onToggleDate }: HabitCardProps
   }
 
   const handleDateToggle = (date: Date) => {
-    console.log('HabitCard - Date received:', date)
-    console.log('HabitCard - Date ISO string:', date.toISOString())
-    console.log('HabitCard - Date local string:', date.toLocaleDateString())
+    // Check if the date is today
+    const today = new Date()
+    const isToday = date.getFullYear() === today.getFullYear() &&
+                   date.getMonth() === today.getMonth() &&
+                   date.getDate() === today.getDate()
     
-    // Format date consistently to avoid timezone issues
-    const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const day = String(date.getDate()).padStart(2, '0')
-    const formattedDate = `${year}-${month}-${day}`
+    // Only allow editing today's date
+    if (!isToday) {
+      return
+    }
     
-    console.log('HabitCard - Formatted date string:', formattedDate)
-    
-    // Create a new date object with the formatted date to ensure consistency
-    const [y, m, d] = formattedDate.split('-').map(Number)
-    const correctedDate = new Date(y, m - 1, d)
-    
-    console.log('HabitCard - Corrected date:', correctedDate)
-    
-    onToggleDate(habit.id, correctedDate)
+    onToggleDate(habit.id, date)
   }
 
   const getStreakColor = (streak: number) => {

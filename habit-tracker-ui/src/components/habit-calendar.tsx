@@ -5,7 +5,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { CalendarDays, TrendingUp } from "lucide-react"
+import { CalendarDays, Lock } from "lucide-react"
 
 interface HabitCalendarProps {
   habitId: number
@@ -40,6 +40,14 @@ export function HabitCalendar({
     return new Date(year, month - 1, day)
   }
 
+  // Check if a date is today
+  const isToday = (date: Date) => {
+    const today = new Date()
+    return date.getFullYear() === today.getFullYear() &&
+           date.getMonth() === today.getMonth() &&
+           date.getDate() === today.getDate()
+  }
+
   const completedDates = Object.entries(monthlyCompletions)
     .filter(([_, completed]) => completed)
     .map(([dateStr, _]) => createDateFromString(dateStr))
@@ -51,16 +59,8 @@ export function HabitCalendar({
   }
 
   const handleToggleClick = () => {
-    if (selectedDate) {
-      console.log('Selected date:', selectedDate)
-      console.log('Formatted date string:', formatDateToString(selectedDate))
-      
-      // Create a new date object to ensure we're sending the correct date
-      const dateToSend = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate())
-      console.log('Date being sent to backend:', dateToSend)
-      console.log('Date string being sent:', formatDateToString(dateToSend))
-      
-      onToggleCompletion(dateToSend)
+    if (selectedDate && isToday(selectedDate)) {
+      onToggleCompletion(selectedDate)
     }
   }
 
@@ -84,6 +84,7 @@ export function HabitCalendar({
   }
 
   const isSelectedDateCompleted = selectedDate && monthlyCompletions[formatDateToString(selectedDate)]
+  const isSelectedDateToday = selectedDate && isToday(selectedDate)
 
   return (
     <Dialog>
@@ -125,25 +126,42 @@ export function HabitCalendar({
             
             <div className="text-center space-y-3">
               {selectedDate && (
-                <div className="text-sm text-muted-foreground bg-blue-50 p-2 rounded-md">
-                  Selected: <span className="font-medium">{selectedDate.toLocaleDateString()}</span>
+                <div className={`text-sm p-3 rounded-md ${
+                  isSelectedDateToday 
+                    ? 'bg-blue-50 border border-blue-200' 
+                    : 'bg-gray-50 border border-gray-200'
+                }`}>
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    <span className="font-medium">{selectedDate.toLocaleDateString()}</span>
+                    {!isSelectedDateToday && (
+                      <Lock className="h-4 w-4 text-gray-400" />
+                    )}
+                  </div>
+                  
                   {isSelectedDateCompleted && (
-                    <Badge variant="default" className="ml-2 bg-green-500">
+                    <Badge variant="default" className="bg-green-500">
                       ✓ Completed
                     </Badge>
                   )}
+                  
+                  {!isSelectedDateToday && (
+                    <div className="text-xs text-gray-500 mt-1">
+                      Only today's habits can be edited
+                    </div>
+                  )}
                 </div>
               )}
+              
               <Button
                 variant={isSelectedDateCompleted ? "destructive" : "default"}
                 size="sm"
                 onClick={handleToggleClick}
-                disabled={!selectedDate}
+                disabled={!selectedDate || !isSelectedDateToday}
                 className="w-full"
               >
-                {selectedDate && isSelectedDateCompleted 
-                  ? 'Mark as Incomplete' 
-                  : 'Mark as Complete'
+                {!selectedDate ? 'Select a date' :
+                 !isSelectedDateToday ? 'Can only edit today' :
+                 isSelectedDateCompleted ? 'Mark as Incomplete' : 'Mark as Complete'
                 }
               </Button>
             </div>
