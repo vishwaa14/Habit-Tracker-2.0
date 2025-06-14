@@ -4,10 +4,10 @@ import * as React from "react"
 import {
   Calendar,
   Target,
-  TrendingUp,
-  Settings,
-  Home,
   BarChart3,
+  Home,
+  Settings,
+  User,
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -22,8 +22,8 @@ import {
 
 const data = {
   user: {
-    name: "Habit Tracker User",
-    email: "user@example.com",
+    name: "John Doe",
+    email: "john@example.com",
     avatar: "/avatars/user.jpg",
   },
   navMain: [
@@ -34,34 +34,14 @@ const data = {
       isActive: true,
     },
     {
-      title: "Habits",
+      title: "All Habits",
       url: "/all-habits",
       icon: Target,
-      items: [
-        {
-          title: "All Habits",
-          url: "/all-habits",
-        },
-        {
-          title: "Active Streaks",
-          url: "/all-habits",
-        },
-      ],
     },
     {
       title: "Analytics",
       url: "/analytics",
       icon: BarChart3,
-      items: [
-        {
-          title: "Progress Report",
-          url: "/analytics",
-        },
-        {
-          title: "Trends",
-          url: "/analytics",
-        },
-      ],
     },
     {
       title: "Calendar",
@@ -72,16 +52,6 @@ const data = {
       title: "Settings",
       url: "#",
       icon: Settings,
-      items: [
-        {
-          title: "Profile",
-          url: "#",
-        },
-        {
-          title: "Preferences",
-          url: "#",
-        },
-      ],
     },
   ],
 }
@@ -91,8 +61,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <div className="flex items-center gap-2 px-2 py-2">
-          <Target className="h-6 w-6 text-primary" />
-          <span className="font-semibold text-lg">HabitTracker</span>
+          <div className="p-1.5 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg">
+            <Target className="h-5 w-5 text-white" />
+          </div>
+          <span className="font-semibold text-lg bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            HabitTracker
+          </span>
         </div>
       </SidebarHeader>
       <SidebarContent>
