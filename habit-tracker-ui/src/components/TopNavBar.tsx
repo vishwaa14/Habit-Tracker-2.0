@@ -16,7 +16,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar"
-import { Target, User, Settings, LogOut, ChevronDown } from "lucide-react"
+import { Target, User, LogOut, ChevronDown } from "lucide-react"
 
 export function TopNavBar() {
   const { user, logout } = useAuth()
@@ -25,6 +25,10 @@ export function TopNavBar() {
   const handleLogout = () => {
     logout()
     router.push('/auth')
+  }
+
+  const handleProfileClick = () => {
+    router.push('/profile')
   }
 
   if (!user) {
@@ -36,7 +40,7 @@ export function TopNavBar() {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo and Brand */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 cursor-pointer" onClick={() => router.push('/dashboard')}>
             <div className="p-2 bg-blue-600 rounded-xl">
               <Target className="h-6 w-6 text-white" />
             </div>
@@ -78,14 +82,9 @@ export function TopNavBar() {
                 
                 <DropdownMenuSeparator />
                 
-                <DropdownMenuItem className="cursor-pointer">
+                <DropdownMenuItem className="cursor-pointer" onClick={handleProfileClick}>
                   <User className="mr-2 h-4 w-4" />
                   <span>Profile</span>
-                </DropdownMenuItem>
-                
-                <DropdownMenuItem className="cursor-pointer">
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>Settings</span>
                 </DropdownMenuItem>
                 
                 <DropdownMenuSeparator />
