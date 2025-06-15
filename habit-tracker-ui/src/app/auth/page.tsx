@@ -77,10 +77,10 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-8">
+    <div className="min-h-screen w-full bg-gray-50 flex items-center justify-center p-4">
+      <div className="w-full max-w-md mx-auto">
         {/* Header */}
-        <div className="text-center space-y-6">
+        <div className="text-center space-y-6 mb-8">
           <div className="flex items-center justify-center">
             <div className="p-4 bg-blue-600 rounded-2xl shadow-lg">
               <Target className="h-8 w-8 text-white" />
@@ -272,7 +272,7 @@ export default function AuthPage() {
         </Card>
 
         {/* Footer */}
-        <div className="text-center">
+        <div className="text-center mt-8">
           <p className="text-sm text-gray-500">
             Start building better habits today!
           </p>
