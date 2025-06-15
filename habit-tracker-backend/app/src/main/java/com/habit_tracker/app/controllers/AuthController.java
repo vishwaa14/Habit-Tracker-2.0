@@ -1,9 +1,6 @@
 package com.habit_tracker.app.controllers;
 
-import com.habit_tracker.app.dto.auth.JwtResponse;
-import com.habit_tracker.app.dto.auth.LoginRequest;
-import com.habit_tracker.app.dto.auth.MessageResponse;
-import com.habit_tracker.app.dto.auth.SignupRequest;
+import com.habit_tracker.app.dto.auth.*;
 import com.habit_tracker.app.models.User;
 import com.habit_tracker.app.repositories.UserRepository;
 import com.habit_tracker.app.security.jwt.JwtUtils;
@@ -11,6 +8,7 @@ import com.habit_tracker.app.security.services.UserPrincipal;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -81,6 +79,43 @@ public class AuthController {
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+    @PostMapping("/change-password")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordRequest changePasswordRequest) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+            
+            User user = userRepository.findByUsername(userPrincipal.getUsername())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+
+            // Verify current password
+            if (!encoder.matches(changePasswordRequest.getCurrentPassword(), user.getPassword())) {
+                return ResponseEntity
+                        .badRequest()
+                        .body(new MessageResponse("Current password is incorrect"));
+            }
+
+            // Check if new password is different from current password
+            if (encoder.matches(changePasswordRequest.getNewPassword(), user.getPassword())) {
+                return ResponseEntity
+                        .badRequest()
+                        .body(new MessageResponse("New password must be different from current password"));
+            }
+
+            // Update password
+            user.setPassword(encoder.encode(changePasswordRequest.getNewPassword()));
+            userRepository.save(user);
+
+            return ResponseEntity.ok(new MessageResponse("Password changed successfully!"));
+
+        } catch (Exception e) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error changing password: " + e.getMessage()));
+        }
     }
 
     @PostMapping("/signout")
