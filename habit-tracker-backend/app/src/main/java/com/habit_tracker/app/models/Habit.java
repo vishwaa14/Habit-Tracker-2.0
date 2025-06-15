@@ -24,9 +24,9 @@ public class Habit {
     @Column(name = "target_frequency", nullable = false)
     private Integer targetFrequency = 1; // Daily by default
 
-    // Make user_id nullable for now
-    @Column(name = "user_id", nullable = true)
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @OneToMany(mappedBy = "habit", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
@@ -34,15 +34,14 @@ public class Habit {
 
     public Habit() {
         this.createdDate = LocalDate.now();
-        this.userId = 1L; // Default user ID for development
     }
 
-    public Habit(String name, String description) {
+    public Habit(String name, String description, User user) {
         this.name = name;
         this.description = description;
+        this.user = user;
         this.createdDate = LocalDate.now();
         this.targetFrequency = 1;
-        this.userId = 1L; // Default user ID for development
     }
 
     // Getters and Setters
@@ -61,8 +60,8 @@ public class Habit {
     public Integer getTargetFrequency() { return targetFrequency; }
     public void setTargetFrequency(Integer targetFrequency) { this.targetFrequency = targetFrequency; }
 
-    public Long getUserId() { return userId; }
-    public void setUserId(Long userId) { this.userId = userId; }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 
     public List<HabitEntry> getEntries() { return entries; }
     public void setEntries(List<HabitEntry> entries) { this.entries = entries; }

@@ -1,6 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useAuth } from "@/contexts/AuthContext"
+import { ProtectedRoute } from "@/components/ProtectedRoute"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -8,7 +10,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { HabitCard } from "@/components/habit-card"
 import { DailyHabitsTable } from "@/components/daily-habits-table"
 import { Plus, Target, TrendingUp, Calendar, Sparkles } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
 
 interface Habit {
   id: number
@@ -21,12 +22,13 @@ interface Habit {
   totalCompletions: number
 }
 
-export default function Dashboard() {
+function DashboardContent() {
   const [habits, setHabits] = useState<Habit[]>([])
   const [newHabit, setNewHabit] = useState("")
   const [description, setDescription] = useState("")
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [loading, setLoading] = useState(true)
+  const { token } = useAuth()
 
   useEffect(() => {
     fetchHabits()
@@ -34,7 +36,12 @@ export default function Dashboard() {
 
   const fetchHabits = async () => {
     try {
-      const response = await fetch("http://localhost:9090/api/habits")
+      const response = await fetch("http://localhost:9090/api/habits", {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      })
       if (response.ok) {
         const data = await response.json()
         const formattedHabits = data.map((item: any) => ({
@@ -64,7 +71,10 @@ export default function Dashboard() {
     try {
       const response = await fetch("http://localhost:9090/api/habits", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${token}`,
+        },
         body: JSON.stringify(habitData),
       })
 
@@ -83,6 +93,9 @@ export default function Dashboard() {
     try {
       const response = await fetch(`http://localhost:9090/api/habits/${habitId}/toggle?date=${dateStr}`, {
         method: "POST",
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
       })
 
       if (response.ok) {
@@ -278,5 +291,13 @@ export default function Dashboard() {
         )}
       </div>
     </div>
+  )
+}
+
+export default function Dashboard() {
+  return (
+    <ProtectedRoute>
+      <DashboardContent />
+    </ProtectedRoute>
   )
 }

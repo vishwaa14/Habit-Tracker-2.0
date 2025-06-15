@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -21,8 +20,8 @@ public class HabitService {
     @Autowired
     private HabitEntryRepository habitEntryRepository;
 
-    public List<HabitWithStatsDTO> getAllHabitsWithStats() {
-        List<Habit> habits = habitRepository.findAll();
+    public List<HabitWithStatsDTO> getAllHabitsWithStatsByUser(Long userId) {
+        List<Habit> habits = habitRepository.findByUserId(userId);
         return habits.stream()
                 .map(this::calculateHabitStats)
                 .collect(Collectors.toList());
@@ -32,7 +31,15 @@ public class HabitService {
         return habitRepository.save(habit);
     }
 
-    public HabitEntry toggleHabitCompletion(Long habitId, LocalDate date) {
+    public HabitEntry toggleHabitCompletion(Long habitId, LocalDate date, Long userId) {
+        // Verify habit belongs to user
+        Habit habit = habitRepository.findById(habitId)
+                .orElseThrow(() -> new RuntimeException("Habit not found"));
+        
+        if (!habit.getUser().getId().equals(userId)) {
+            throw new RuntimeException("Unauthorized access to habit");
+        }
+
         Optional<HabitEntry> existingEntry = habitEntryRepository.findByHabitIdAndCompletionDate(habitId, date);
         
         if (existingEntry.isPresent()) {
@@ -40,16 +47,19 @@ public class HabitService {
             entry.setCompleted(!entry.getCompleted());
             return habitEntryRepository.save(entry);
         } else {
-            Habit habit = habitRepository.findById(habitId)
-                    .orElseThrow(() -> new RuntimeException("Habit not found"));
             HabitEntry newEntry = new HabitEntry(habit, date, true);
             return habitEntryRepository.save(newEntry);
         }
     }
 
-    public HabitWithStatsDTO getHabitWithStats(Long habitId) {
+    public HabitWithStatsDTO getHabitWithStats(Long habitId, Long userId) {
         Habit habit = habitRepository.findById(habitId)
                 .orElseThrow(() -> new RuntimeException("Habit not found"));
+        
+        if (!habit.getUser().getId().equals(userId)) {
+            throw new RuntimeException("Unauthorized access to habit");
+        }
+        
         return calculateHabitStats(habit);
     }
 
