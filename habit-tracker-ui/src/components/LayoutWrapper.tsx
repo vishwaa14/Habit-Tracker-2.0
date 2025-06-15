@@ -1,8 +1,7 @@
 "use client"
 
 import { usePathname } from 'next/navigation'
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar" 
-import { AppSidebar } from "@/components/app-sidebar"
+import { TopNavBar } from "@/components/TopNavBar"
 
 interface LayoutWrapperProps {
   children: React.ReactNode
@@ -11,7 +10,7 @@ interface LayoutWrapperProps {
 export function LayoutWrapper({ children }: LayoutWrapperProps) {
   const pathname = usePathname()
   
-  // Don't show sidebar on auth page
+  // Don't show top nav on auth page
   const isAuthPage = pathname === '/auth'
   
   if (isAuthPage) {
@@ -19,12 +18,11 @@ export function LayoutWrapper({ children }: LayoutWrapperProps) {
   }
 
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <main className="flex-1">
-        <SidebarTrigger />
+    <div className="min-h-screen bg-gray-50">
+      <TopNavBar />
+      <main className="w-full">
         {children}
       </main>
-    </SidebarProvider>
+    </div>
   )
 }
