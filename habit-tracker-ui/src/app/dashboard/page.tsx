@@ -170,38 +170,38 @@ function DashboardContent() {
 
       {/* Stats Overview */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl border border-blue-200 shadow-sm">
+        <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-900 p-6 rounded-2xl border border-blue-200 dark:border-blue-800 shadow-sm">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-blue-500 rounded-xl">
               <Target className="h-6 w-6 text-white" />
             </div>
             <div>
-              <div className="text-3xl font-bold text-blue-700">{totalHabits}</div>
-              <div className="text-sm text-blue-600 font-medium">Total Habits</div>
+              <div className="text-3xl font-bold text-blue-700 dark:text-blue-300">{totalHabits}</div>
+              <div className="text-sm text-blue-600 dark:text-blue-400 font-medium">Total Habits</div>
             </div>
           </div>
         </div>
         
-        <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-2xl border border-green-200 shadow-sm">
+        <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950 dark:to-green-900 p-6 rounded-2xl border border-green-200 dark:border-green-800 shadow-sm">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-green-500 rounded-xl">
               <TrendingUp className="h-6 w-6 text-white" />
             </div>
             <div>
-              <div className="text-3xl font-bold text-green-700">{activeStreaks}</div>
-              <div className="text-sm text-green-600 font-medium">Active Streaks</div>
+              <div className="text-3xl font-bold text-green-700 dark:text-green-300">{activeStreaks}</div>
+              <div className="text-sm text-green-600 dark:text-green-400 font-medium">Active Streaks</div>
             </div>
           </div>
         </div>
         
-        <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-2xl border border-purple-200 shadow-sm">
+        <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950 dark:to-purple-900 p-6 rounded-2xl border border-purple-200 dark:border-purple-800 shadow-sm">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-purple-500 rounded-xl">
               <Calendar className="h-6 w-6 text-white" />
             </div>
             <div>
-              <div className="text-3xl font-bold text-purple-700">{avgCompletionRate}%</div>
-              <div className="text-sm text-purple-600 font-medium">Avg Completion</div>
+              <div className="text-3xl font-bold text-purple-700 dark:text-purple-300">{avgCompletionRate}%</div>
+              <div className="text-sm text-purple-600 dark:text-purple-400 font-medium">Avg Completion</div>
             </div>
           </div>
         </div>
@@ -265,8 +265,8 @@ function DashboardContent() {
         
         {habits.length === 0 ? (
           <div className="text-center py-16">
-            <div className="p-4 bg-gray-100 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center">
-              <Target className="h-10 w-10 text-gray-400" />
+            <div className="p-4 bg-gray-100 dark:bg-gray-800 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+              <Target className="h-10 w-10 text-gray-400 dark:text-gray-500" />
             </div>
             <h3 className="text-xl font-semibold mb-2">No habits yet</h3>
             <p className="text-muted-foreground mb-6 max-w-md mx-auto">

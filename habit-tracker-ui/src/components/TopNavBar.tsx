@@ -3,6 +3,7 @@
 import { useAuth } from "@/contexts/AuthContext"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
+import { ThemeToggle } from "@/components/ThemeToggle"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -36,37 +37,41 @@ export function TopNavBar() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+    <nav className="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-900/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo and Brand */}
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => router.push('/dashboard')}>
-            <div className="p-2 bg-blue-600 rounded-xl">
+            <div className="p-2 bg-blue-600 dark:bg-blue-500 rounded-xl">
               <Target className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">
+              <h1 className="text-xl font-bold text-gray-900 dark:text-white">
                 Habit Tracker
               </h1>
             </div>
           </div>
 
-          {/* User Menu */}
+          {/* Right Side - Theme Toggle and User Menu */}
           <div className="flex items-center gap-4">
-            <div className="hidden sm:block text-sm text-gray-600">
-              Welcome back, <span className="font-medium text-gray-900">{user.username}</span>
+            <div className="hidden sm:block text-sm text-gray-600 dark:text-gray-300">
+              Welcome back, <span className="font-medium text-gray-900 dark:text-white">{user.username}</span>
             </div>
             
+            {/* Theme Toggle */}
+            <ThemeToggle />
+            
+            {/* User Menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center gap-2 h-10 px-3 hover:bg-gray-100">
+                <Button variant="ghost" className="flex items-center gap-2 h-10 px-3 hover:bg-gray-100 dark:hover:bg-gray-800">
                   <Avatar className="h-8 w-8">
                     <AvatarImage src="/avatars/user.jpg" alt={user.username} />
-                    <AvatarFallback className="bg-blue-100 text-blue-700 text-sm font-medium">
+                    <AvatarFallback className="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 text-sm font-medium">
                       {user.username.charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
-                  <ChevronDown className="h-4 w-4 text-gray-500" />
+                  <ChevronDown className="h-4 w-4 text-gray-500 dark:text-gray-400" />
                 </Button>
               </DropdownMenuTrigger>
               
@@ -90,7 +95,7 @@ export function TopNavBar() {
                 <DropdownMenuSeparator />
                 
                 <DropdownMenuItem 
-                  className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50"
+                  className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950"
                   onClick={handleLogout}
                 >
                   <LogOut className="mr-2 h-4 w-4" />
