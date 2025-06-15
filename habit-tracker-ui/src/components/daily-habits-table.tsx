@@ -61,10 +61,10 @@ export function DailyHabitsTable({ habits, onToggleHabit }: DailyHabitsTableProp
   const currentDateStr = formatDate(currentDate)
 
   return (
-    <Card className="w-full">
+    <Card className="w-full bg-card border-border">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2 text-foreground">
             <Calendar className="h-5 w-5" />
             Daily Habits
           </CardTitle>
@@ -115,8 +115,8 @@ export function DailyHabitsTable({ habits, onToggleHabit }: DailyHabitsTableProp
                   key={habit.id}
                   className={`flex items-center justify-between p-4 rounded-lg border transition-all duration-200 ${
                     isCompleted 
-                      ? 'bg-green-50 border-green-200 shadow-sm' 
-                      : 'bg-white border-gray-200 hover:border-gray-300'
+                      ? 'bg-primary/5 border-primary/20 shadow-sm' 
+                      : 'bg-background border-border hover:border-primary/30'
                   }`}
                 >
                   <div className="flex items-center gap-4">
@@ -127,10 +127,10 @@ export function DailyHabitsTable({ habits, onToggleHabit }: DailyHabitsTableProp
                       disabled={isFuture}
                     />
                     <div className="flex-1">
-                      <h4 className={`font-medium ${isCompleted ? 'text-green-800' : 'text-gray-900'}`}>
+                      <h4 className={`font-medium ${isCompleted ? 'text-primary' : 'text-foreground'}`}>
                         {habit.name}
                       </h4>
-                      <p className={`text-sm ${isCompleted ? 'text-green-600' : 'text-muted-foreground'}`}>
+                      <p className={`text-sm ${isCompleted ? 'text-primary/80' : 'text-muted-foreground'}`}>
                         {habit.description}
                       </p>
                     </div>
@@ -139,14 +139,14 @@ export function DailyHabitsTable({ habits, onToggleHabit }: DailyHabitsTableProp
                   <div className="flex items-center gap-3">
                     <div className="flex items-center gap-2">
                       <div className="text-center">
-                        <div className="text-sm font-bold text-orange-600 flex items-center gap-1">
+                        <div className="text-sm font-bold text-orange-600 dark:text-orange-400 flex items-center gap-1">
                           <Flame className="h-3 w-3" />
                           {habit.currentStreak}
                         </div>
                         <div className="text-xs text-muted-foreground">streak</div>
                       </div>
                       <div className="text-center">
-                        <div className="text-sm font-bold text-blue-600 flex items-center gap-1">
+                        <div className="text-sm font-bold text-primary flex items-center gap-1">
                           <Target className="h-3 w-3" />
                           {habit.longestStreak}
                         </div>
@@ -155,7 +155,7 @@ export function DailyHabitsTable({ habits, onToggleHabit }: DailyHabitsTableProp
                     </div>
                     
                     {isCompleted && (
-                      <Badge variant="default" className="bg-green-500 hover:bg-green-600">
+                      <Badge variant="default" className="bg-primary hover:bg-primary/90">
                         ✓ Done
                       </Badge>
                     )}

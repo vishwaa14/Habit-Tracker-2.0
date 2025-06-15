@@ -154,11 +154,11 @@ function DashboardContent() {
       {/* Header */}
       <div className="text-center space-y-4">
         <div className="flex items-center justify-center gap-3">
-          <div className="p-3 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl">
-            <Sparkles className="h-8 w-8 text-white" />
+          <div className="p-3 bg-primary rounded-xl">
+            <Sparkles className="h-8 w-8 text-primary-foreground" />
           </div>
           <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            <h1 className="text-4xl font-bold text-primary">
               Your Dashboard
             </h1>
             <p className="text-muted-foreground text-lg">
@@ -170,38 +170,38 @@ function DashboardContent() {
 
       {/* Stats Overview */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-slate-800 dark:to-slate-700 p-6 rounded-2xl border border-blue-200 dark:border-slate-600 shadow-sm">
+        <div className="bg-primary/5 p-6 rounded-2xl border border-primary/20 shadow-sm">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-blue-500 rounded-xl">
-              <Target className="h-6 w-6 text-white" />
+            <div className="p-3 bg-primary rounded-xl">
+              <Target className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
-              <div className="text-3xl font-bold text-blue-700 dark:text-blue-300">{totalHabits}</div>
-              <div className="text-sm text-blue-600 dark:text-blue-400 font-medium">Total Habits</div>
+              <div className="text-3xl font-bold text-primary">{totalHabits}</div>
+              <div className="text-sm text-primary font-medium">Total Habits</div>
             </div>
           </div>
         </div>
         
-        <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-slate-800 dark:to-slate-700 p-6 rounded-2xl border border-green-200 dark:border-slate-600 shadow-sm">
+        <div className="bg-primary/5 p-6 rounded-2xl border border-primary/20 shadow-sm">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-green-500 rounded-xl">
-              <TrendingUp className="h-6 w-6 text-white" />
+            <div className="p-3 bg-primary rounded-xl">
+              <TrendingUp className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
-              <div className="text-3xl font-bold text-green-700 dark:text-green-300">{activeStreaks}</div>
-              <div className="text-sm text-green-600 dark:text-green-400 font-medium">Active Streaks</div>
+              <div className="text-3xl font-bold text-primary">{activeStreaks}</div>
+              <div className="text-sm text-primary font-medium">Active Streaks</div>
             </div>
           </div>
         </div>
         
-        <div className="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-slate-800 dark:to-slate-700 p-6 rounded-2xl border border-purple-200 dark:border-slate-600 shadow-sm">
+        <div className="bg-primary/5 p-6 rounded-2xl border border-primary/20 shadow-sm">
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-purple-500 rounded-xl">
-              <Calendar className="h-6 w-6 text-white" />
+            <div className="p-3 bg-primary rounded-xl">
+              <Calendar className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
-              <div className="text-3xl font-bold text-purple-700 dark:text-purple-300">{avgCompletionRate}%</div>
-              <div className="text-sm text-purple-600 dark:text-purple-400 font-medium">Avg Completion</div>
+              <div className="text-3xl font-bold text-primary">{avgCompletionRate}%</div>
+              <div className="text-sm text-primary font-medium">Avg Completion</div>
             </div>
           </div>
         </div>
@@ -265,8 +265,8 @@ function DashboardContent() {
         
         {habits.length === 0 ? (
           <div className="text-center py-16">
-            <div className="p-4 bg-gray-100 dark:bg-slate-800 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center">
-              <Target className="h-10 w-10 text-gray-400 dark:text-slate-500" />
+            <div className="p-4 bg-muted rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+              <Target className="h-10 w-10 text-muted-foreground" />
             </div>
             <h3 className="text-xl font-semibold mb-2">No habits yet</h3>
             <p className="text-muted-foreground mb-6 max-w-md mx-auto">

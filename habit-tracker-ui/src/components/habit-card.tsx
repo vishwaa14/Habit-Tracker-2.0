@@ -47,20 +47,20 @@ export function HabitCard({ habit, onToggleToday, onToggleDate }: HabitCardProps
   }
 
   const getStreakColor = (streak: number) => {
-    if (streak >= 30) return "text-purple-600"
-    if (streak >= 14) return "text-blue-600"
-    if (streak >= 7) return "text-green-600"
-    if (streak >= 3) return "text-yellow-600"
-    return "text-gray-600"
+    if (streak >= 30) return "text-purple-600 dark:text-purple-400"
+    if (streak >= 14) return "text-primary"
+    if (streak >= 7) return "text-primary"
+    if (streak >= 3) return "text-yellow-600 dark:text-yellow-400"
+    return "text-muted-foreground"
   }
 
   return (
-    <Card className="w-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-0 shadow-lg bg-gradient-to-br from-white to-gray-50">
+    <Card className="w-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-border shadow-lg bg-card">
       <CardHeader className="pb-4">
         <div className="flex items-start justify-between">
           <div className="space-y-2 flex-1">
-            <CardTitle className="text-xl font-bold text-gray-800">{habit.name}</CardTitle>
-            <p className="text-sm text-gray-600 leading-relaxed">{habit.description}</p>
+            <CardTitle className="text-xl font-bold text-foreground">{habit.name}</CardTitle>
+            <p className="text-sm text-muted-foreground leading-relaxed">{habit.description}</p>
           </div>
           <div className="flex items-center gap-3 ml-4">
             <Checkbox
@@ -68,7 +68,7 @@ export function HabitCard({ habit, onToggleToday, onToggleDate }: HabitCardProps
               onCheckedChange={handleTodayToggle}
               className="h-6 w-6 rounded-lg"
             />
-            <span className="text-sm font-semibold text-gray-700">Today</span>
+            <span className="text-sm font-semibold text-foreground">Today</span>
           </div>
         </div>
       </CardHeader>
@@ -76,40 +76,40 @@ export function HabitCard({ habit, onToggleToday, onToggleDate }: HabitCardProps
       <CardContent className="space-y-6">
         {/* Stats Row */}
         <div className="grid grid-cols-3 gap-4">
-          <div className="text-center p-3 bg-orange-50 rounded-xl border border-orange-100">
+          <div className="text-center p-3 bg-orange-50 dark:bg-orange-950/20 rounded-xl border border-orange-100 dark:border-orange-900/30">
             <div className={`text-2xl font-bold ${getStreakColor(habit.currentStreak)} flex items-center justify-center gap-1`}>
               <Flame className="h-5 w-5" />
               {habit.currentStreak}
             </div>
-            <div className="text-xs text-orange-600 font-medium mt-1">Current Streak</div>
+            <div className="text-xs text-orange-600 dark:text-orange-400 font-medium mt-1">Current Streak</div>
           </div>
-          <div className="text-center p-3 bg-blue-50 rounded-xl border border-blue-100">
-            <div className="text-2xl font-bold text-blue-600 flex items-center justify-center gap-1">
+          <div className="text-center p-3 bg-primary/5 rounded-xl border border-primary/20">
+            <div className="text-2xl font-bold text-primary flex items-center justify-center gap-1">
               <Target className="h-5 w-5" />
               {habit.longestStreak}
             </div>
-            <div className="text-xs text-blue-600 font-medium mt-1">Best Streak</div>
+            <div className="text-xs text-primary font-medium mt-1">Best Streak</div>
           </div>
-          <div className="text-center p-3 bg-green-50 rounded-xl border border-green-100">
-            <div className="text-2xl font-bold text-green-600 flex items-center justify-center gap-1">
+          <div className="text-center p-3 bg-primary/5 rounded-xl border border-primary/20">
+            <div className="text-2xl font-bold text-primary flex items-center justify-center gap-1">
               <CheckCircle2 className="h-5 w-5" />
               {habit.totalCompletions}
             </div>
-            <div className="text-xs text-green-600 font-medium mt-1">Total Done</div>
+            <div className="text-xs text-primary font-medium mt-1">Total Done</div>
           </div>
         </div>
 
         {/* Completion Rate */}
-        <div className="space-y-3 p-4 bg-gray-50 rounded-xl">
+        <div className="space-y-3 p-4 bg-muted/50 rounded-xl">
           <div className="flex justify-between items-center">
-            <span className="text-sm font-semibold text-gray-700">This Month Progress</span>
+            <span className="text-sm font-semibold text-foreground">This Month Progress</span>
             <Badge 
               variant="secondary" 
               className={`text-xs font-bold ${
-                habit.completionRate >= 80 ? 'bg-green-100 text-green-700' :
-                habit.completionRate >= 60 ? 'bg-blue-100 text-blue-700' :
-                habit.completionRate >= 40 ? 'bg-yellow-100 text-yellow-700' :
-                'bg-red-100 text-red-700'
+                habit.completionRate >= 80 ? 'bg-primary/10 text-primary' :
+                habit.completionRate >= 60 ? 'bg-primary/10 text-primary' :
+                habit.completionRate >= 40 ? 'bg-yellow-100 dark:bg-yellow-950/20 text-yellow-700 dark:text-yellow-400' :
+                'bg-red-100 dark:bg-red-950/20 text-red-700 dark:text-red-400'
               }`}
             >
               {Math.round(habit.completionRate)}%
@@ -117,13 +117,13 @@ export function HabitCard({ habit, onToggleToday, onToggleDate }: HabitCardProps
           </div>
           <Progress 
             value={habit.completionRate} 
-            className="h-3 bg-gray-200"
+            className="h-3 bg-muted"
           />
         </div>
 
         {/* Mini Calendar Preview */}
         <div className="space-y-3">
-          <div className="text-sm font-semibold text-gray-700">Last 7 Days</div>
+          <div className="text-sm font-semibold text-foreground">Last 7 Days</div>
           <div className="flex gap-2 justify-between">
             {Array.from({ length: 7 }).map((_, i) => {
               const date = new Date()
@@ -136,8 +136,8 @@ export function HabitCard({ habit, onToggleToday, onToggleDate }: HabitCardProps
                   key={i}
                   className={`flex-1 h-10 rounded-lg border-2 flex items-center justify-center text-xs font-bold transition-all duration-200 ${
                     isCompleted
-                      ? 'bg-green-500 border-green-500 text-white shadow-md'
-                      : 'bg-white border-gray-200 text-gray-400 hover:border-gray-300'
+                      ? 'bg-primary border-primary text-primary-foreground shadow-md'
+                      : 'bg-background border-border text-muted-foreground hover:border-primary/30'
                   }`}
                   title={date.toLocaleDateString()}
                 >
@@ -160,7 +160,7 @@ export function HabitCard({ habit, onToggleToday, onToggleDate }: HabitCardProps
           />
           
           {isCompletedToday && (
-            <Badge variant="default" className="gap-2 bg-green-500 hover:bg-green-600 px-3 py-1">
+            <Badge variant="default" className="gap-2 bg-primary hover:bg-primary/90 px-3 py-1">
               <CheckCircle2 className="h-4 w-4" />
               Completed Today!
             </Badge>
