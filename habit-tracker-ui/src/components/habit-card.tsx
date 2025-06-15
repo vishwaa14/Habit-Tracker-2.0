@@ -6,7 +6,8 @@ import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
 import { Checkbox } from "@/components/ui/checkbox"
 import { HabitCalendar } from "./habit-calendar"
-import { CheckCircle2, Flame, Target, TrendingUp, Calendar } from "lucide-react"
+import { useTheme } from "@/contexts/ThemeContext"
+import { CheckCircle2, Flame, Target, TrendingUp, Calendar, Star, Zap } from "lucide-react"
 
 interface HabitCardProps {
   habit: {
@@ -24,6 +25,7 @@ interface HabitCardProps {
 }
 
 export function HabitCard({ habit, onToggleToday, onToggleDate }: HabitCardProps) {
+  const { theme } = useTheme()
   const today = new Date().toISOString().split('T')[0]
   const isCompletedToday = habit.monthlyCompletions?.[today] || false
 
@@ -47,15 +49,43 @@ export function HabitCard({ habit, onToggleToday, onToggleDate }: HabitCardProps
   }
 
   const getStreakColor = (streak: number) => {
-    if (streak >= 30) return "text-purple-600 dark:text-purple-400"
-    if (streak >= 14) return "text-primary"
-    if (streak >= 7) return "text-primary"
-    if (streak >= 3) return "text-yellow-600 dark:text-yellow-400"
-    return "text-muted-foreground"
+    if (theme === 'dark') {
+      if (streak >= 30) return "text-purple-400"
+      if (streak >= 14) return "text-blue-400"
+      if (streak >= 7) return "text-cyan-400"
+      if (streak >= 3) return "text-yellow-400"
+      return "text-muted-foreground"
+    } else {
+      if (streak >= 30) return "text-purple-600"
+      if (streak >= 14) return "text-blue-600"
+      if (streak >= 7) return "text-cyan-600"
+      if (streak >= 3) return "text-yellow-600"
+      return "text-muted-foreground"
+    }
+  }
+
+  const getStreakBg = (streak: number) => {
+    if (theme === 'dark') {
+      if (streak >= 30) return "bg-purple-500/10 border-purple-500/20"
+      if (streak >= 14) return "bg-blue-500/10 border-blue-500/20"
+      if (streak >= 7) return "bg-cyan-500/10 border-cyan-500/20"
+      if (streak >= 3) return "bg-yellow-500/10 border-yellow-500/20"
+      return "bg-muted/50 border-border"
+    } else {
+      if (streak >= 30) return "bg-purple-50 border-purple-200"
+      if (streak >= 14) return "bg-blue-50 border-blue-200"
+      if (streak >= 7) return "bg-cyan-50 border-cyan-200"
+      if (streak >= 3) return "bg-yellow-50 border-yellow-200"
+      return "bg-gray-50 border-gray-200"
+    }
   }
 
   return (
-    <Card className="w-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-border shadow-lg bg-card">
+    <Card className={`w-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border shadow-lg ${
+      theme === 'dark'
+        ? 'bg-gradient-to-br from-slate-900/50 to-slate-800/50 border-slate-700/50 backdrop-blur-sm'
+        : 'bg-white border-gray-200'
+    }`}>
       <CardHeader className="pb-4">
         <div className="flex items-start justify-between">
           <div className="space-y-2 flex-1">
@@ -76,40 +106,73 @@ export function HabitCard({ habit, onToggleToday, onToggleDate }: HabitCardProps
       <CardContent className="space-y-6">
         {/* Stats Row */}
         <div className="grid grid-cols-3 gap-4">
-          <div className="text-center p-3 bg-orange-50 dark:bg-orange-950/20 rounded-xl border border-orange-100 dark:border-orange-900/30">
+          <div className={`text-center p-3 rounded-xl border transition-all duration-300 ${getStreakBg(habit.currentStreak)}`}>
             <div className={`text-2xl font-bold ${getStreakColor(habit.currentStreak)} flex items-center justify-center gap-1`}>
               <Flame className="h-5 w-5" />
               {habit.currentStreak}
             </div>
-            <div className="text-xs text-orange-600 dark:text-orange-400 font-medium mt-1">Current Streak</div>
+            <div className={`text-xs font-medium mt-1 transition-colors duration-300 ${
+              theme === 'dark' ? 'text-orange-400' : 'text-orange-600'
+            }`}>Current Streak</div>
           </div>
-          <div className="text-center p-3 bg-primary/5 rounded-xl border border-primary/20">
-            <div className="text-2xl font-bold text-primary flex items-center justify-center gap-1">
+          <div className={`text-center p-3 rounded-xl border transition-all duration-300 ${
+            theme === 'dark'
+              ? 'bg-green-500/10 border-green-500/20'
+              : 'bg-green-50 border-green-200'
+          }`}>
+            <div className={`text-2xl font-bold flex items-center justify-center gap-1 transition-colors duration-300 ${
+              theme === 'dark' ? 'text-green-400' : 'text-green-600'
+            }`}>
               <Target className="h-5 w-5" />
               {habit.longestStreak}
             </div>
-            <div className="text-xs text-primary font-medium mt-1">Best Streak</div>
+            <div className={`text-xs font-medium mt-1 transition-colors duration-300 ${
+              theme === 'dark' ? 'text-green-400' : 'text-green-600'
+            }`}>Best Streak</div>
           </div>
-          <div className="text-center p-3 bg-primary/5 rounded-xl border border-primary/20">
-            <div className="text-2xl font-bold text-primary flex items-center justify-center gap-1">
-              <CheckCircle2 className="h-5 w-5" />
+          <div className={`text-center p-3 rounded-xl border transition-all duration-300 ${
+            theme === 'dark'
+              ? 'bg-indigo-500/10 border-indigo-500/20'
+              : 'bg-indigo-50 border-indigo-200'
+          }`}>
+            <div className={`text-2xl font-bold flex items-center justify-center gap-1 transition-colors duration-300 ${
+              theme === 'dark' ? 'text-indigo-400' : 'text-indigo-600'
+            }`}>
+              <Star className="h-5 w-5" />
               {habit.totalCompletions}
             </div>
-            <div className="text-xs text-primary font-medium mt-1">Total Done</div>
+            <div className={`text-xs font-medium mt-1 transition-colors duration-300 ${
+              theme === 'dark' ? 'text-indigo-400' : 'text-indigo-600'
+            }`}>Total Done</div>
           </div>
         </div>
 
         {/* Completion Rate */}
-        <div className="space-y-3 p-4 bg-muted/50 rounded-xl">
+        <div className={`space-y-3 p-4 rounded-xl transition-all duration-300 ${
+          theme === 'dark'
+            ? 'bg-slate-800/50 border border-slate-700/50'
+            : 'bg-gray-50 border border-gray-200'
+        }`}>
           <div className="flex justify-between items-center">
             <span className="text-sm font-semibold text-foreground">This Month Progress</span>
             <Badge 
               variant="secondary" 
-              className={`text-xs font-bold ${
-                habit.completionRate >= 80 ? 'bg-primary/10 text-primary' :
-                habit.completionRate >= 60 ? 'bg-primary/10 text-primary' :
-                habit.completionRate >= 40 ? 'bg-yellow-100 dark:bg-yellow-950/20 text-yellow-700 dark:text-yellow-400' :
-                'bg-red-100 dark:bg-red-950/20 text-red-700 dark:text-red-400'
+              className={`text-xs font-bold transition-all duration-300 ${
+                habit.completionRate >= 80 
+                  ? theme === 'dark' 
+                    ? 'bg-green-500/20 text-green-400 border-green-500/30' 
+                    : 'bg-green-100 text-green-700 border-green-200'
+                  : habit.completionRate >= 60 
+                    ? theme === 'dark'
+                      ? 'bg-blue-500/20 text-blue-400 border-blue-500/30'
+                      : 'bg-blue-100 text-blue-700 border-blue-200'
+                    : habit.completionRate >= 40 
+                      ? theme === 'dark'
+                        ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
+                        : 'bg-yellow-100 text-yellow-700 border-yellow-200'
+                      : theme === 'dark'
+                        ? 'bg-red-500/20 text-red-400 border-red-500/30'
+                        : 'bg-red-100 text-red-700 border-red-200'
               }`}
             >
               {Math.round(habit.completionRate)}%
@@ -117,7 +180,9 @@ export function HabitCard({ habit, onToggleToday, onToggleDate }: HabitCardProps
           </div>
           <Progress 
             value={habit.completionRate} 
-            className="h-3 bg-muted"
+            className={`h-3 transition-all duration-300 ${
+              theme === 'dark' ? 'bg-slate-700' : 'bg-gray-200'
+            }`}
           />
         </div>
 
@@ -136,8 +201,12 @@ export function HabitCard({ habit, onToggleToday, onToggleDate }: HabitCardProps
                   key={i}
                   className={`flex-1 h-10 rounded-lg border-2 flex items-center justify-center text-xs font-bold transition-all duration-200 ${
                     isCompleted
-                      ? 'bg-primary border-primary text-primary-foreground shadow-md'
-                      : 'bg-background border-border text-muted-foreground hover:border-primary/30'
+                      ? theme === 'dark'
+                        ? 'bg-gradient-to-br from-green-500 to-emerald-500 border-green-400 text-white shadow-lg'
+                        : 'bg-gradient-to-br from-green-500 to-emerald-500 border-green-400 text-white shadow-md'
+                      : theme === 'dark'
+                        ? 'bg-slate-800/50 border-slate-600 text-slate-400 hover:border-green-500/50'
+                        : 'bg-white border-gray-300 text-gray-500 hover:border-green-400'
                   }`}
                   title={date.toLocaleDateString()}
                 >
@@ -160,7 +229,11 @@ export function HabitCard({ habit, onToggleToday, onToggleDate }: HabitCardProps
           />
           
           {isCompletedToday && (
-            <Badge variant="default" className="gap-2 bg-primary hover:bg-primary/90 px-3 py-1">
+            <Badge variant="default" className={`gap-2 px-3 py-1 transition-all duration-300 ${
+              theme === 'dark'
+                ? 'bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600'
+                : 'bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600'
+            }`}>
               <CheckCircle2 className="h-4 w-4" />
               Completed Today!
             </Badge>

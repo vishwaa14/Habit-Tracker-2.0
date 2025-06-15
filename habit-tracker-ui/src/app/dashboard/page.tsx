@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useAuth } from "@/contexts/AuthContext"
+import { useTheme } from "@/contexts/ThemeContext"
 import { ProtectedRoute } from "@/components/ProtectedRoute"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -9,7 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { HabitCard } from "@/components/habit-card"
 import { DailyHabitsTable } from "@/components/daily-habits-table"
-import { Plus, Target, TrendingUp, Calendar, Sparkles } from "lucide-react"
+import { Plus, Target, TrendingUp, Calendar, Sparkles, Zap, Star, Trophy } from "lucide-react"
 
 interface Habit {
   id: number
@@ -29,6 +30,7 @@ function DashboardContent() {
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [loading, setLoading] = useState(true)
   const { token } = useAuth()
+  const { theme } = useTheme()
 
   useEffect(() => {
     fetchHabits()
@@ -142,7 +144,11 @@ function DashboardContent() {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center space-y-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <div className={`animate-spin rounded-full h-12 w-12 border-b-2 mx-auto ${
+            theme === 'dark' 
+              ? 'border-purple-400' 
+              : 'border-gray-900'
+          }`}></div>
           <div className="text-lg font-medium">Loading your habits...</div>
         </div>
       </div>
@@ -154,11 +160,19 @@ function DashboardContent() {
       {/* Header */}
       <div className="text-center space-y-4">
         <div className="flex items-center justify-center gap-3">
-          <div className="p-3 bg-primary rounded-xl">
-            <Sparkles className="h-8 w-8 text-primary-foreground" />
+          <div className={`p-3 rounded-xl transition-all duration-300 ${
+            theme === 'dark' 
+              ? 'bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 shadow-lg' 
+              : 'bg-gray-900 shadow-md'
+          }`}>
+            <Sparkles className="h-8 w-8 text-white" />
           </div>
           <div>
-            <h1 className="text-4xl font-bold text-primary">
+            <h1 className={`text-4xl font-bold transition-colors duration-300 ${
+              theme === 'dark'
+                ? 'bg-gradient-to-r from-purple-400 via-pink-400 to-orange-400 bg-clip-text text-transparent'
+                : 'text-gray-900'
+            }`}>
               Your Dashboard
             </h1>
             <p className="text-muted-foreground text-lg">
@@ -170,38 +184,80 @@ function DashboardContent() {
 
       {/* Stats Overview */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-primary/5 p-6 rounded-2xl border border-primary/20 shadow-sm">
+        <div className={`p-6 rounded-2xl border shadow-sm transition-all duration-300 ${
+          theme === 'dark'
+            ? 'bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border-blue-500/20'
+            : 'bg-gray-50 border-gray-200'
+        }`}>
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-primary rounded-xl">
-              <Target className="h-6 w-6 text-primary-foreground" />
+            <div className={`p-3 rounded-xl transition-all duration-300 ${
+              theme === 'dark'
+                ? 'bg-gradient-to-br from-blue-500 to-cyan-500'
+                : 'bg-gray-900'
+            }`}>
+              <Target className="h-6 w-6 text-white" />
             </div>
             <div>
-              <div className="text-3xl font-bold text-primary">{totalHabits}</div>
-              <div className="text-sm text-primary font-medium">Total Habits</div>
+              <div className={`text-3xl font-bold transition-colors duration-300 ${
+                theme === 'dark'
+                  ? 'bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent'
+                  : 'text-gray-900'
+              }`}>{totalHabits}</div>
+              <div className={`text-sm font-medium transition-colors duration-300 ${
+                theme === 'dark' ? 'text-blue-400' : 'text-gray-700'
+              }`}>Total Habits</div>
             </div>
           </div>
         </div>
         
-        <div className="bg-primary/5 p-6 rounded-2xl border border-primary/20 shadow-sm">
+        <div className={`p-6 rounded-2xl border shadow-sm transition-all duration-300 ${
+          theme === 'dark'
+            ? 'bg-gradient-to-br from-purple-500/10 to-pink-500/10 border-purple-500/20'
+            : 'bg-gray-50 border-gray-200'
+        }`}>
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-primary rounded-xl">
-              <TrendingUp className="h-6 w-6 text-primary-foreground" />
+            <div className={`p-3 rounded-xl transition-all duration-300 ${
+              theme === 'dark'
+                ? 'bg-gradient-to-br from-purple-500 to-pink-500'
+                : 'bg-gray-900'
+            }`}>
+              <Zap className="h-6 w-6 text-white" />
             </div>
             <div>
-              <div className="text-3xl font-bold text-primary">{activeStreaks}</div>
-              <div className="text-sm text-primary font-medium">Active Streaks</div>
+              <div className={`text-3xl font-bold transition-colors duration-300 ${
+                theme === 'dark'
+                  ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
+                  : 'text-gray-900'
+              }`}>{activeStreaks}</div>
+              <div className={`text-sm font-medium transition-colors duration-300 ${
+                theme === 'dark' ? 'text-purple-400' : 'text-gray-700'
+              }`}>Active Streaks</div>
             </div>
           </div>
         </div>
         
-        <div className="bg-primary/5 p-6 rounded-2xl border border-primary/20 shadow-sm">
+        <div className={`p-6 rounded-2xl border shadow-sm transition-all duration-300 ${
+          theme === 'dark'
+            ? 'bg-gradient-to-br from-orange-500/10 to-yellow-500/10 border-orange-500/20'
+            : 'bg-gray-50 border-gray-200'
+        }`}>
           <div className="flex items-center gap-4">
-            <div className="p-3 bg-primary rounded-xl">
-              <Calendar className="h-6 w-6 text-primary-foreground" />
+            <div className={`p-3 rounded-xl transition-all duration-300 ${
+              theme === 'dark'
+                ? 'bg-gradient-to-br from-orange-500 to-yellow-500'
+                : 'bg-gray-900'
+            }`}>
+              <Trophy className="h-6 w-6 text-white" />
             </div>
             <div>
-              <div className="text-3xl font-bold text-primary">{avgCompletionRate}%</div>
-              <div className="text-sm text-primary font-medium">Avg Completion</div>
+              <div className={`text-3xl font-bold transition-colors duration-300 ${
+                theme === 'dark'
+                  ? 'bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent'
+                  : 'text-gray-900'
+              }`}>{avgCompletionRate}%</div>
+              <div className={`text-sm font-medium transition-colors duration-300 ${
+                theme === 'dark' ? 'text-orange-400' : 'text-gray-700'
+              }`}>Avg Completion</div>
             </div>
           </div>
         </div>
@@ -211,7 +267,11 @@ function DashboardContent() {
       <div className="flex justify-center">
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
-            <Button size="lg" className="gap-2 px-8 py-3 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-200">
+            <Button size="lg" className={`gap-2 px-8 py-3 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 ${
+              theme === 'dark'
+                ? 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600'
+                : 'bg-gray-900 hover:bg-gray-800'
+            }`}>
               <Plus className="h-5 w-5" />
               Add New Habit
             </Button>
@@ -243,7 +303,11 @@ function DashboardContent() {
               </div>
               <Button 
                 onClick={handleAddHabit} 
-                className="w-full h-11 text-base rounded-lg"
+                className={`w-full h-11 text-base rounded-lg transition-all duration-200 ${
+                  theme === 'dark'
+                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600'
+                    : 'bg-gray-900 hover:bg-gray-800'
+                }`}
                 disabled={!newHabit.trim() || !description.trim()}
               >
                 Create Habit
@@ -261,18 +325,32 @@ function DashboardContent() {
 
       {/* Habits Grid */}
       <div className="space-y-6">
-        <h2 className="text-2xl font-bold text-center">Your Habits</h2>
+        <h2 className={`text-2xl font-bold text-center transition-colors duration-300 ${
+          theme === 'dark'
+            ? 'bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent'
+            : 'text-gray-900'
+        }`}>Your Habits</h2>
         
         {habits.length === 0 ? (
           <div className="text-center py-16">
-            <div className="p-4 bg-muted rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center">
-              <Target className="h-10 w-10 text-muted-foreground" />
+            <div className={`p-4 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center transition-all duration-300 ${
+              theme === 'dark'
+                ? 'bg-gradient-to-br from-purple-500/20 to-pink-500/20'
+                : 'bg-gray-100'
+            }`}>
+              <Star className={`h-10 w-10 transition-colors duration-300 ${
+                theme === 'dark' ? 'text-purple-400' : 'text-gray-400'
+              }`} />
             </div>
             <h3 className="text-xl font-semibold mb-2">No habits yet</h3>
             <p className="text-muted-foreground mb-6 max-w-md mx-auto">
               Start building better habits by creating your first one! Track your progress and build lasting routines.
             </p>
-            <Button onClick={() => setIsDialogOpen(true)} size="lg" className="gap-2 px-8">
+            <Button onClick={() => setIsDialogOpen(true)} size="lg" className={`gap-2 px-8 transition-all duration-200 ${
+              theme === 'dark'
+                ? 'bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600'
+                : 'bg-gray-900 hover:bg-gray-800'
+            }`}>
               <Plus className="h-5 w-5" />
               Add Your First Habit
             </Button>

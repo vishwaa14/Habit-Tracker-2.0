@@ -1,6 +1,7 @@
 "use client"
 
 import { useAuth } from "@/contexts/AuthContext"
+import { useTheme } from "@/contexts/ThemeContext"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/ThemeToggle"
@@ -21,6 +22,7 @@ import { Target, User, LogOut, ChevronDown } from "lucide-react"
 
 export function TopNavBar() {
   const { user, logout } = useAuth()
+  const { theme } = useTheme()
   const router = useRouter()
 
   const handleLogout = () => {
@@ -42,11 +44,19 @@ export function TopNavBar() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo and Brand */}
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => router.push('/dashboard')}>
-            <div className="p-2 bg-blue-600 dark:bg-blue-500 rounded-xl">
+            <div className={`p-2 rounded-xl transition-all duration-300 ${
+              theme === 'dark' 
+                ? 'bg-gradient-to-br from-purple-500 via-blue-500 to-cyan-500 shadow-lg' 
+                : 'bg-gray-900 shadow-md'
+            }`}>
               <Target className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900 dark:text-slate-100">
+              <h1 className={`text-xl font-bold transition-colors duration-300 ${
+                theme === 'dark'
+                  ? 'bg-gradient-to-r from-purple-400 via-blue-400 to-cyan-400 bg-clip-text text-transparent'
+                  : 'text-gray-900'
+              }`}>
                 Habit Tracker
               </h1>
             </div>
@@ -55,7 +65,11 @@ export function TopNavBar() {
           {/* Right Side - Theme Toggle and User Menu */}
           <div className="flex items-center gap-4">
             <div className="hidden sm:block text-sm text-gray-600 dark:text-slate-400">
-              Welcome back, <span className="font-medium text-gray-900 dark:text-slate-100">{user.username}</span>
+              Welcome back, <span className={`font-medium transition-colors duration-300 ${
+                theme === 'dark'
+                  ? 'bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent'
+                  : 'text-gray-900'
+              }`}>{user.username}</span>
             </div>
             
             {/* Theme Toggle */}
@@ -67,7 +81,11 @@ export function TopNavBar() {
                 <Button variant="ghost" className="flex items-center gap-2 h-10 px-3 hover:bg-gray-100 dark:hover:bg-slate-800">
                   <Avatar className="h-8 w-8">
                     <AvatarImage src="/avatars/user.jpg" alt={user.username} />
-                    <AvatarFallback className="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 text-sm font-medium">
+                    <AvatarFallback className={`text-sm font-medium transition-all duration-300 ${
+                      theme === 'dark'
+                        ? 'bg-gradient-to-br from-purple-500 to-blue-500 text-white'
+                        : 'bg-gray-100 text-gray-700'
+                    }`}>
                       {user.username.charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
