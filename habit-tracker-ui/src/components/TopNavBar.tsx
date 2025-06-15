@@ -37,7 +37,7 @@ export function TopNavBar() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-gray-900/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
+    <nav className="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-slate-900/60">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo and Brand */}
@@ -46,7 +46,7 @@ export function TopNavBar() {
               <Target className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900 dark:text-white">
+              <h1 className="text-xl font-bold text-gray-900 dark:text-slate-100">
                 Habit Tracker
               </h1>
             </div>
@@ -54,8 +54,8 @@ export function TopNavBar() {
 
           {/* Right Side - Theme Toggle and User Menu */}
           <div className="flex items-center gap-4">
-            <div className="hidden sm:block text-sm text-gray-600 dark:text-gray-300">
-              Welcome back, <span className="font-medium text-gray-900 dark:text-white">{user.username}</span>
+            <div className="hidden sm:block text-sm text-gray-600 dark:text-slate-400">
+              Welcome back, <span className="font-medium text-gray-900 dark:text-slate-100">{user.username}</span>
             </div>
             
             {/* Theme Toggle */}
@@ -64,14 +64,14 @@ export function TopNavBar() {
             {/* User Menu */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center gap-2 h-10 px-3 hover:bg-gray-100 dark:hover:bg-gray-800">
+                <Button variant="ghost" className="flex items-center gap-2 h-10 px-3 hover:bg-gray-100 dark:hover:bg-slate-800">
                   <Avatar className="h-8 w-8">
                     <AvatarImage src="/avatars/user.jpg" alt={user.username} />
                     <AvatarFallback className="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 text-sm font-medium">
                       {user.username.charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
-                  <ChevronDown className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                  <ChevronDown className="h-4 w-4 text-gray-500 dark:text-slate-400" />
                 </Button>
               </DropdownMenuTrigger>
               

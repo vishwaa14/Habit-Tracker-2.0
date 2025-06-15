@@ -137,10 +137,10 @@ function ProfileContent() {
             <User className="h-8 w-8 text-white" />
           </div>
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-slate-100">
               Profile
             </h1>
-            <p className="text-gray-600 dark:text-gray-300 text-lg">
+            <p className="text-gray-600 dark:text-slate-400 text-lg">
               Manage your account information
             </p>
           </div>
@@ -148,60 +148,60 @@ function ProfileContent() {
       </div>
 
       {/* Profile Information Card */}
-      <Card className="shadow-sm border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+      <Card className="shadow-sm border border-gray-200 dark:border-slate-800 bg-white dark:bg-slate-900">
         <CardHeader className="pb-6">
-          <CardTitle className="text-xl font-semibold text-gray-900 dark:text-white">
+          <CardTitle className="text-xl font-semibold text-gray-900 dark:text-slate-100">
             Account Information
           </CardTitle>
-          <CardDescription className="text-gray-600 dark:text-gray-300">
+          <CardDescription className="text-gray-600 dark:text-slate-400">
             Your personal details and account settings
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Avatar Section */}
           <div className="flex items-center gap-6">
-            <Avatar className="h-20 w-20 border-4 border-gray-100 dark:border-gray-700">
+            <Avatar className="h-20 w-20 border-4 border-gray-100 dark:border-slate-700">
               <AvatarImage src="/avatars/user.jpg" alt={user.username} />
               <AvatarFallback className="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 text-2xl font-bold">
                 {user.username.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
             <div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white">{user.username}</h3>
-              <p className="text-gray-600 dark:text-gray-300">{user.email}</p>
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-slate-100">{user.username}</h3>
+              <p className="text-gray-600 dark:text-slate-400">{user.email}</p>
             </div>
           </div>
 
-          <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
+          <div className="border-t border-gray-200 dark:border-slate-700 pt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <Label className="text-sm font-medium text-gray-700 dark:text-slate-300">
                   Username
                 </Label>
-                <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border dark:border-gray-600">
-                  <User className="h-4 w-4 text-gray-500 dark:text-gray-400" />
-                  <span className="text-gray-900 dark:text-white font-medium">{user.username}</span>
+                <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-slate-800 rounded-lg border dark:border-slate-700">
+                  <User className="h-4 w-4 text-gray-500 dark:text-slate-400" />
+                  <span className="text-gray-900 dark:text-slate-100 font-medium">{user.username}</span>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <Label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                <Label className="text-sm font-medium text-gray-700 dark:text-slate-300">
                   Email Address
                 </Label>
-                <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border dark:border-gray-600">
-                  <Mail className="h-4 w-4 text-gray-500 dark:text-gray-400" />
-                  <span className="text-gray-900 dark:text-white font-medium">{user.email}</span>
+                <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-slate-800 rounded-lg border dark:border-slate-700">
+                  <Mail className="h-4 w-4 text-gray-500 dark:text-slate-400" />
+                  <span className="text-gray-900 dark:text-slate-100 font-medium">{user.email}</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Change Password Section */}
-          <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
+          <div className="border-t border-gray-200 dark:border-slate-700 pt-6">
             <div className="flex items-center justify-between">
               <div>
-                <h4 className="text-lg font-medium text-gray-900 dark:text-white">Password</h4>
-                <p className="text-sm text-gray-600 dark:text-gray-300">Update your account password</p>
+                <h4 className="text-lg font-medium text-gray-900 dark:text-slate-100">Password</h4>
+                <p className="text-sm text-gray-600 dark:text-slate-400">Update your account password</p>
               </div>
               <Dialog open={isPasswordModalOpen} onOpenChange={(open) => {
                 setIsPasswordModalOpen(open)
@@ -227,13 +227,13 @@ function ProfileContent() {
                   <div className="space-y-6">
                     {/* Error/Success Messages */}
                     {passwordError && (
-                      <Alert variant="destructive" className="border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950">
+                      <Alert variant="destructive" className="border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-950/50">
                         <AlertDescription className="text-red-800 dark:text-red-200">{passwordError}</AlertDescription>
                       </Alert>
                     )}
                     
                     {passwordSuccess && (
-                      <Alert className="border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-950">
+                      <Alert className="border-green-200 dark:border-green-900 bg-green-50 dark:bg-green-950/50">
                         <AlertDescription className="text-green-800 dark:text-green-200">{passwordSuccess}</AlertDescription>
                       </Alert>
                     )}
@@ -244,7 +244,7 @@ function ProfileContent() {
                         Current Password
                       </Label>
                       <div className="relative">
-                        <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400 dark:text-gray-500" />
+                        <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400 dark:text-slate-500" />
                         <Input
                           id="current-password"
                           type={showPasswords.current ? "text" : "password"}
@@ -263,9 +263,9 @@ function ProfileContent() {
                           disabled={passwordLoading}
                         >
                           {showPasswords.current ? (
-                            <EyeOff className="h-4 w-4 text-gray-400 dark:text-gray-500" />
+                            <EyeOff className="h-4 w-4 text-gray-400 dark:text-slate-500" />
                           ) : (
-                            <Eye className="h-4 w-4 text-gray-400 dark:text-gray-500" />
+                            <Eye className="h-4 w-4 text-gray-400 dark:text-slate-500" />
                           )}
                         </Button>
                       </div>
@@ -277,7 +277,7 @@ function ProfileContent() {
                         New Password
                       </Label>
                       <div className="relative">
-                        <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400 dark:text-gray-500" />
+                        <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400 dark:text-slate-500" />
                         <Input
                           id="new-password"
                           type={showPasswords.new ? "text" : "password"}
@@ -297,9 +297,9 @@ function ProfileContent() {
                           disabled={passwordLoading}
                         >
                           {showPasswords.new ? (
-                            <EyeOff className="h-4 w-4 text-gray-400 dark:text-gray-500" />
+                            <EyeOff className="h-4 w-4 text-gray-400 dark:text-slate-500" />
                           ) : (
-                            <Eye className="h-4 w-4 text-gray-400 dark:text-gray-500" />
+                            <Eye className="h-4 w-4 text-gray-400 dark:text-slate-500" />
                           )}
                         </Button>
                       </div>
@@ -311,7 +311,7 @@ function ProfileContent() {
                         Confirm New Password
                       </Label>
                       <div className="relative">
-                        <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400 dark:text-gray-500" />
+                        <Lock className="absolute left-3 top-3 h-4 w-4 text-gray-400 dark:text-slate-500" />
                         <Input
                           id="confirm-password"
                           type={showPasswords.confirm ? "text" : "password"}
@@ -331,9 +331,9 @@ function ProfileContent() {
                           disabled={passwordLoading}
                         >
                           {showPasswords.confirm ? (
-                            <EyeOff className="h-4 w-4 text-gray-400 dark:text-gray-500" />
+                            <EyeOff className="h-4 w-4 text-gray-400 dark:text-slate-500" />
                           ) : (
-                            <Eye className="h-4 w-4 text-gray-400 dark:text-gray-500" />
+                            <Eye className="h-4 w-4 text-gray-400 dark:text-slate-500" />
                           )}
                         </Button>
                       </div>
