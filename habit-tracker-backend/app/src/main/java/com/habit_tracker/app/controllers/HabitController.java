@@ -44,6 +44,14 @@ public class HabitController {
         return ResponseEntity.ok(savedHabit);
     }
 
+    @DeleteMapping("/{habitId}")
+    @PreAuthorize("hasRole('USER')")
+    public ResponseEntity<Void> deleteHabit(@PathVariable Long habitId) {
+        User currentUser = getCurrentUser();
+        habitService.deleteHabit(habitId, currentUser.getId());
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/{habitId}/toggle")
     @PreAuthorize("hasRole('USER')")
     public ResponseEntity<HabitEntry> toggleHabitCompletion(

@@ -7,6 +7,7 @@ import com.habit_tracker.app.repositories.HabitRepository;
 import com.habit_tracker.app.repositories.HabitEntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -29,6 +30,23 @@ public class HabitService {
 
     public Habit addHabit(Habit habit) {
         return habitRepository.save(habit);
+    }
+
+    @Transactional
+    public void deleteHabit(Long habitId, Long userId) {
+        // Verify habit belongs to user
+        Habit habit = habitRepository.findById(habitId)
+                .orElseThrow(() -> new RuntimeException("Habit not found"));
+        
+        if (!habit.getUser().getId().equals(userId)) {
+            throw new RuntimeException("Unauthorized access to habit");
+        }
+
+        // Delete all habit entries first (due to foreign key constraint)
+        habitEntryRepository.deleteByHabitId(habitId);
+        
+        // Then delete the habit
+        habitRepository.deleteById(habitId);
     }
 
     public HabitEntry toggleHabitCompletion(Long habitId, LocalDate date, Long userId) {

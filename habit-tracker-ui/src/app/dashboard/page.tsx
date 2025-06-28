@@ -91,6 +91,23 @@ function DashboardContent() {
     }
   }
 
+  const handleDeleteHabit = async (habitId: number) => {
+    try {
+      const response = await fetch(`http://localhost:9090/api/habits/${habitId}`, {
+        method: "DELETE",
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      })
+
+      if (response.ok) {
+        fetchHabits() // Refresh the list
+      }
+    } catch (error) {
+      console.error("Error deleting habit:", error)
+    }
+  }
+
   const handleToggleHabit = async (habitId: number, dateStr: string) => {
     try {
       const response = await fetch(`http://localhost:9090/api/habits/${habitId}/toggle?date=${dateStr}`, {
@@ -363,6 +380,7 @@ function DashboardContent() {
                 habit={habit}
                 onToggleToday={handleToggleToday}
                 onToggleDate={handleToggleDate}
+                onDeleteHabit={handleDeleteHabit}
               />
             ))}
           </div>

@@ -2,6 +2,7 @@ package com.habit_tracker.app.repositories;
 
 import com.habit_tracker.app.models.HabitEntry;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -20,4 +21,8 @@ public interface HabitEntryRepository extends JpaRepository<HabitEntry, Long> {
     
     @Query("SELECT COUNT(he) FROM HabitEntry he WHERE he.habit.id = :habitId AND he.completed = true AND he.completionDate >= :startDate")
     Long countCompletedEntriesSince(@Param("habitId") Long habitId, @Param("startDate") LocalDate startDate);
+    
+    @Modifying
+    @Query("DELETE FROM HabitEntry he WHERE he.habit.id = :habitId")
+    void deleteByHabitId(@Param("habitId") Long habitId);
 }
